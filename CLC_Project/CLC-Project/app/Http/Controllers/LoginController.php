@@ -32,6 +32,7 @@ class LoginController extends Controller
         if($security->password != $password)
         {
             echo "Failed to login to application!";
+            echo "TESTING!";
             exit;
         }
 
