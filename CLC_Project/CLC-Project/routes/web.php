@@ -19,13 +19,25 @@ Route::get('/', function () {
 });
 
 Route::get('/hello', function(){
-    return 'Hello world THIS IS A NEW TEST!';
+    return 'Hello world!';
 });
     
 Route::get('/test', 'TestController@test2');
 
 Route::post('/users', 'TestController@getData');
 
+Route::post('/accountRegistration', 'RegistrationController@userRegistration');
+
+Route::post('/loginProcess', 'LoginController@findUser');
+
 Route::get('/login', function(){
+   return view('login'); 
+});
+
+Route::get('/register', function(){
    return view('users'); 
+});
+
+Route::get('/home', function(){
+    return view('home');    
 });
