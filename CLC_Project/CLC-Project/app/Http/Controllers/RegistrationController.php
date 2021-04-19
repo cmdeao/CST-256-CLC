@@ -19,7 +19,6 @@ class RegistrationController extends Controller
 {
     function userRegistration(Request $request)
     {   
-        echo "testing";
         $user = new User;
         $user->name = $request->input('name');
         $user->email = $request->input('email');
