@@ -35,6 +35,6 @@ class RegistrationController extends Controller
         }
         
         $user->save();
-        echo "Successfully registered as a user!";
+        return view('home');
     }
 }

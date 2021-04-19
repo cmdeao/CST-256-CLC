@@ -19,8 +19,6 @@
 	<input type="text" name="username" placeholder="Enter username" required/> <br><br>
 	<label for="password">Password:</label>
 	<input type="password" name="password" placeholder="Enter password" required/> <br><br>
-	<!-- <label for="password">Password:</label>
-	<input type="password" name="password" placeholder="Enter password"/><br><br> --> 
 	<button type="submit">Register Account!</button><br>
 </form>
 </body>
