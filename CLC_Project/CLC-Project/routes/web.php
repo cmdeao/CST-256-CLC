@@ -24,6 +24,8 @@ Route::get('/hello', function(){
     
 Route::get('/test', 'TestController@test2');
 
+Route::get('/model', 'TestController@testingModel');
+
 Route::post('/users', 'TestController@getData');
 
 Route::post('/accountRegistration', 'RegistrationController@userRegistration');

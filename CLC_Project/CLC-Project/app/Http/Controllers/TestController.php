@@ -8,6 +8,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Models\SecurityModel;
+use App\Services\Business\SecurityService;
 use DB;
 
 class TestController extends Controller
@@ -20,6 +22,29 @@ class TestController extends Controller
     function test2()
     {
         return view('helloworld');
+    }
+    
+    function testingModel()
+    {
+        $user = new SecurityModel('jane', 'doe');
+        $service = new SecurityService();
+        $loginResult = $service->login($user);
+        
+        if(!$loginResult)
+        {
+            echo "LOGIN ATTEMPT FAILED!";
+        }
+        else
+        {
+            echo "<br>User ID: " . $loginResult->getUserID() . " Username: " . $loginResult->getUsername();
+        }
+        
+        //echo "TESTING OUTPUT";
+        
+        //echo "Result: " . $loginResult . "<br>";
+//         $testUser = new UserModel(1, 'Cameron', 'testing@yahoo.com', 27, 'testingname');
+//         echo "<br>ID: " . $testUser->getUserID() . " Name: " . $testUser->getName();
+//         echo "<br>Created object.";
     }
     
     function getData(Request $req)
