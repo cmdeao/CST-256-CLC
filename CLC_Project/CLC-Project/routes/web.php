@@ -43,3 +43,11 @@ Route::get('/register', function(){
 Route::get('/home', function(){
     return view('home');    
 });
+
+Route::get('/profile', 'ProfileController@index');
+
+Route::get('/updateProfile', function(){
+   return view('testProfileTable'); 
+});
+
+Route::post('/updateProcess', 'ProfileController@updateProfile');
