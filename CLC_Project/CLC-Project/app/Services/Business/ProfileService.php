@@ -7,7 +7,6 @@ class ProfileService
 {
     public function getProfile($userID)
     {
-        echo "<br>Inside Profile Service";
         $service = new ProfileDAO();
         return $service->findProfile($userID);
     }

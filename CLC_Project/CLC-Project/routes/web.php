@@ -46,6 +46,8 @@ Route::get('/home', function(){
 
 Route::get('/profile', 'ProfileController@index');
 
+Route::get('/adminPage', 'AdminController@index');
+
 Route::get('/updateProfile', function(){
    return view('testProfileTable'); 
 });
