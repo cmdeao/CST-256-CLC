@@ -64,8 +64,8 @@ height:600px;
 </header>
 <div class="content d-flex justify-content-center">
 <div class="col-sm-8">
-<h3>User Registration</h3>
-<form action="accountRegistration" method="post" return="false">
+<h3>Edit User</h3>
+<form action="users.updateRole" method="post" return="false">
 <div class="form-group">
 <label>Name
 <input type="text" name="name"class="form-control" placeholder="Enter Name" required>
@@ -85,6 +85,10 @@ height:600px;
 <div class="form-group">
 <label>Password</label>
 <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+</div>
+<div class="form-group">
+<label>Role</label>
+<input type="role" name="role" class="form-control" placeholder="Enter User Role" required>
 </div>
 <button class="button" type="submit" style="background-color:#668B8B">Submit</button>
 </form>
