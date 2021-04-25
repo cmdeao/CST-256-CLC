@@ -2,7 +2,7 @@
 /*
  * CLC-Project-256
  * Version 0.2
- * Cameron Deao, Zachary Gardner, Mercedes Thispen
+ * Cameron Deao, Zachary Gardner, Mercedes Thigpen
  * 4/22/2021
  * Login controller handles the retrieval of user submitted data,
  * queries the 'users' table within the database to check if the username
