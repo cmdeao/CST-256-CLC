@@ -8,7 +8,7 @@ background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
 height:600px;
 }
 
-.button {
+Button {
 	box-shadow:inset 0px 1px 3px 0px #91b8b3;
 	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
 	background-color:#768d87;
@@ -24,13 +24,29 @@ height:600px;
 	text-decoration:none;
 	text-shadow:0px -1px 0px #2b665e;
 }
-.button:hover {
+Button:hover {
 	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
 	background-color:#6c7c7c;
 }
-.button:active {
+Button:active {
 	position:relative;
 	top:1px;
+}
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-template-rows: 1fr auto;
+}
+main {flex-grow: 1;}
+.footer {
+  position: fixed;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  text-align: center;
 }
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -64,28 +80,10 @@ height:600px;
 </header>
 <div class="content d-flex justify-content-center">
 <div class="col-sm-8">
-<h3>User Registration</h3>
-<form action="accountRegistration" method="post" return="false">
-<div class="form-group">
-<label>Name
-<input type="text" name="name"class="form-control" placeholder="Enter Name" required>
+<h3>Member Dashboard</h3>
+<body>
+
+</body>
 </div>
-<div class="form-group">
-<label>Email
-<input type="text" name="email" class="form-control" placeholder="Enter Email" required>
 </div>
-<div class="form-group">
-<label>Age
-<input type="age" name="age" class="form-control" placeholder="Enter Age" min="18" max="100" required>
-</div>
-<div class="form-group">
-<label>Username
-<input type="username" name="username"  class="form-control" placeholder="Enter Username" required>
-</div>
-<div class="form-group">
-<label>Password</label>
-<input type="password" name="password" class="form-control" placeholder="Enter Password" required>
-</div>
-<button class="button" type="submit" style="background-color:#668B8B">Submit</button>
-</form>
-</div>
+

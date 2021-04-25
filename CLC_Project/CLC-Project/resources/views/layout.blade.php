@@ -29,8 +29,9 @@ height:600px;
 <a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
 <a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="/logout">Logout</a>
 @else
-<a class="nav-item nav-link active" href="/loginProcess">Login</a>
-<a class="nav-item nav-link active" href="/accountRegistration">Register</a>
+<a class="nav-item nav-link active" href="home.blade.php">Home</a>
+<a class="nav-item nav-link active" href="login.blade.php">Login</a>
+<a class="nav-item nav-link active" href="users.blade.php">Register</a>
 @endif
 </div>
 </div>

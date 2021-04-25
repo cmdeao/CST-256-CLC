@@ -7,7 +7,6 @@
 background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
 height:600px;
 }
-<a href="#" class="myButton">dark grey</a>
 
 Button {
 	box-shadow:inset 0px 1px 3px 0px #91b8b3;
@@ -55,8 +54,9 @@ Button:active {
 <a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
 <a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="/logout">Logout</a>
 @else
-<a class="nav-item nav-link active" href="/loginProcess">Login</a>
-<a class="nav-item nav-link active" href="/accountRegistration">Register</a>
+<a class="nav-item nav-link active" href="home.blade.php">Home</a>
+<a class="nav-item nav-link active" href="login.blade.php">Login</a>
+<a class="nav-item nav-link active" href="users.blade.php">Register</a>
 @endif
 </div>
 </div>
