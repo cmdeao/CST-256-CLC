@@ -26,6 +26,8 @@ Route::get('/test', 'TestController@test2');
 
 Route::get('/model', 'TestController@testingModel');
 
+Route::get('/admin', 'AdminController@index');
+
 Route::post('/users', 'TestController@getData');
 
 Route::post('/accountRegistration', 'RegistrationController@userRegistration');
@@ -40,7 +42,7 @@ Route::get('/register', function(){
    return view('users'); 
 });
 
-Route::get('/home', function(){
+Route::get('/home', function()->name('home'){
     return view('home');    
 });
 
@@ -53,3 +55,8 @@ Route::get('/updateProfile', function(){
 });
 
 Route::post('/updateProcess', 'ProfileController@updateProfile');
+//Route displaying updated user list after a user is deleted by admin//
+
+Route::get('/admin', 'AdminController@index')->name('admin.index');
+Route::delete('/user/{id}', 'AdminController@deleteUser')
+    ->name('admin.deleteUser');

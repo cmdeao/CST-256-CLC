@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>CLC Project: CST-256
+<title>Admin Page
 </title>
 <style>
 .content{
@@ -8,7 +8,7 @@ background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
 height:600px;
 }
 
-.button {
+Button {
 	box-shadow:inset 0px 1px 3px 0px #91b8b3;
 	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
 	background-color:#768d87;
@@ -24,14 +24,38 @@ height:600px;
 	text-decoration:none;
 	text-shadow:0px -1px 0px #2b665e;
 }
-.button:hover {
+Button:hover {
 	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
 	background-color:#6c7c7c;
 }
-.button:active {
+Button:active {
 	position:relative;
 	top:1px;
 }
+ table {
+            color: #668B8B;
+            font-family: Arial;
+            font-weight: bold;
+            width: 640px;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+          
+        td,
+        th {
+            border: 1px solid #CCC;
+            height: 30px;
+        }
+          
+        th {
+            background: #F3F3F3;
+            
+        }
+          
+        td {
+            background: #FAFAFA;
+            text-align: center;
+        }
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -64,28 +88,60 @@ height:600px;
 </header>
 <div class="content d-flex justify-content-center">
 <div class="col-sm-8">
-<h3>User Registration</h3>
-<form action="accountRegistration" method="post" return="false">
+<h3>Admin Dashboard</h3>
 <div class="form-group">
-<label>Name
-<input type="text" name="name"class="form-control" placeholder="Enter Name" required>
+<body>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Email</td>
+        </tr>
+        @foreach ($users as $user)
+        <tr>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td><a href="{{ route('admin.index') }}" 
+                   onclick="event.preventDefault();
+                    document.getElementById(
+                      'delete-form-{{$user->id}}').submit();">
+                 Delete 
+                </a>
+            </td>
+            <form id="delete-form-{{$user->id}}" 
+                  + action="{{route('users.deleteUser', $user->id)}}"
+                  method="post">
+                @csrf @method('DELETE')
+            </form>
+			<td><a href="{{ route('admin.index') }}" 
+                   onclick="event.preventDefault();
+                    document.getElementById(
+                      'suspend-form-{{$user->id}}').submit();">
+                 Suspend 
+                </a>
+            </td>
+            <form id="suspend-form-{{$user->id}}" 
+                  + action="{{route('users.suspendUser', $user->id)}}"
+                  method="post">
+                @csrf @method('SUSPEND')
+            </form>
+            <td><a href="{{ route('admin.index') }}" 
+                   onclick="event.preventDefault();
+                    document.getElementById(
+                      'edit-form-{{$user->id}}').submit();">
+                 Update 
+                </a>
+            </td>
+            <form id="edit-form-{{$user->id}}" 
+                  + action="editUser.php"
+                  method="post">
+                @csrf @method('UPDATE')
+            </form>
+        </tr>
+        @endforeach
+    </table>
+</body>
 </div>
-<div class="form-group">
-<label>Email
-<input type="text" name="email" class="form-control" placeholder="Enter Email" required>
-</div>
-<div class="form-group">
-<label>Age
-<input type="age" name="age" class="form-control" placeholder="Enter Age" min="18" max="100" required>
-</div>
-<div class="form-group">
-<label>Username
-<input type="username" name="username"  class="form-control" placeholder="Enter Username" required>
-</div>
-<div class="form-group">
-<label>Password</label>
-<input type="password" name="password" class="form-control" placeholder="Enter Password" required>
-</div>
-<button class="button" type="submit" style="background-color:#668B8B">Submit</button>
 </form>
 </div>
