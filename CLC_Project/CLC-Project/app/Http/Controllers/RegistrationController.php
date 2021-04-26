@@ -25,6 +25,9 @@ class RegistrationController extends Controller
         $user->age = $request->input('age');
         $user->username = $request->input('username');
         $user->password = $request->input('password');
+        $user->role = 1;
+        $user->banned = 0;
+        $user->suspended = 0;
         
         $retrievedUser = DB::table('users')->where('email', $user->email)->first();
         

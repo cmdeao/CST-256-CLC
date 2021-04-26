@@ -34,11 +34,6 @@ class LoginController extends Controller
             $functions = new functions();
             $functions->saveUserID($loginResult->getUserID());
             $functions->logUser($loginResult);
-            
-            
-//             $testingOBJ = $functions->getUser();
-//             echo "STORED USER ID: " . $testingOBJ->getUserID() . " USERNAME: " . $testingOBJ->getUsername() . "<br>";
-//             echo $functions->getUserID() . "<br>";
 
             return view('home');
         }

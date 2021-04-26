@@ -54,6 +54,7 @@ Route::get('/updateProfile', function(){
    return view('testProfileTable'); 
 });
 
+Route::post('/updateProcess', 'ProfileController@updateProfile');
 //Route displaying updated user list after a user is deleted by admin//
 
 Route::get('/admin', 'AdminController@index')->name('admin.index');
