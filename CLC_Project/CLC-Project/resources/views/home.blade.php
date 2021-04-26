@@ -22,16 +22,22 @@ height:600px;
 </button>
 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 <div class="navbar-nav">
-@endif
-<</div>
+</div>
 <div class="navbar-nav ml-auto">
-@if(Session::get('user'))
+
+@if(Session::get('loggedUser') == 1)
 <a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
-<a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="/logout">Logout</a>
+<a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="<?php echo url("/login");?>">Logout</a>
+<a class="nav-item nav-link active" href="<?php echo url("/home"); ?>">Home</a>
+<a class="nav-item nav-link active" href="<?php echo url("/profile")?>">Profile</a>
 @else
-<a class="nav-item nav-link active" href="home.blade.php">Home</a>
-<a class="nav-item nav-link active" href="login.blade.php">Login</a>
-<a class="nav-item nav-link active" href="users.blade.php">Register</a>
+<a class="nav-item nav-link active" href="<?php echo url("/home"); ?>">Home</a>
+<a class="nav-item nav-link active" href="<?php echo url("/login"); ?>">Login</a>
+<a class="nav-item nav-link active" href="<?php echo url("/register")?>">Register</a>
+@endif
+
+@if(Session::get('role') == 2)
+<a class="nav-item nav-link active" href="<?php echo url("/adminPage")?>">Admin</a>
 @endif
 </div>
 </div>

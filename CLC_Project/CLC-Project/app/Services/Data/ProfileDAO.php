@@ -6,7 +6,6 @@ class ProfileDAO
 {
     public function findProfile($userID)
     {
-        echo "<br>Inside ProfileDAO";
         $link = new Database();
         $database = $link->getConnection();
         

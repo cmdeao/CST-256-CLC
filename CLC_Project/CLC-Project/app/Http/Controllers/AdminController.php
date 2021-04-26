@@ -9,18 +9,18 @@ class AdminController extends Controller
 {
     function index()   
     {
-        echo "<br>Inside AdminController";
+//         echo "<br>Inside AdminController";
         $service = new AdminService();
         $users = $service->getAllUsers();
         
-        echo "<br>Count of users: " . count($users);
-        echo "<br>";
-        for($i = 0; $i < count($users); $i++)
-        {
-            echo $users[$i][0] . " " . $users[$i][1] . " " . $users[$i][2] . " " . 
-                $users[$i][3] . " " . $users[$i][4] . " " . $users[$i][5] .
-                " " . $users[$i][6] . " " . $users[$i][7] ."<br>";
-        }
+//         echo "<br>Count of users: " . count($users);
+//         echo "<br>";
+//         for($i = 0; $i < count($users); $i++)
+//         {
+//             echo $users[$i][0] . " " . $users[$i][1] . " " . $users[$i][2] . " " . 
+//                 $users[$i][3] . " " . $users[$i][4] . " " . $users[$i][5] .
+//                 " " . $users[$i][6] . " " . $users[$i][7] ."<br>";
+//         }
         
 //         if($service->suspendUser(10))
 //         {
@@ -76,9 +76,56 @@ class AdminController extends Controller
 //             echo "<br>We failed to delete the user from the application database!";
 //         }
 
-        $user = $service->findByID(10);
+//         $user = $service->findByID(10);
         
-        echo "<br>ID: " . $user->getUserID() . " Name: " . $user->getName() . " Email: " . $user->getEmail()
-            . " Age: " . $user->getAge() . " Username: " . $user->getUsername();
+//         echo "<br>ID: " . $user->getUserID() . " Name: " . $user->getName() . " Email: " . $user->getEmail()
+//             . " Age: " . $user->getAge() . " Username: " . $user->getUsername();
+
+        return view('adminPage')->with(compact('users'));
+    }   
+    
+    function suspendUser(Request $request)
+    {
+        $service = new AdminService();
+        $userID = $request->input('suspend');
+        
+        if($service->suspendUser($userID))
+        {   
+            return redirect()->action('AdminController@index');
+        }
+        else
+        {
+            echo "Failed to suspend User ID: '$userID'";
+        }
+    }
+    
+    function banUser(Request $request)
+    {
+        $service = new AdminService();
+        $userID = $request->input('ban');
+        
+        if($service->banUser($userID))
+        {
+            return redirect()->action('AdminController@index'); 
+        }
+        else
+        {
+            echo "Failed to ban User ID: '$userID'";
+        }
+    }
+    
+    function deleteUser(Request $request)
+    {
+        $service = new AdminService();
+        $userID = $request->input('delete');
+        
+        if($service->deleteUser($userID))
+        {
+            return redirect()->action('AdminController@index');
+        }
+        else
+        {
+            echo "Failed to delete User ID: '$userID'";
+        }
     }
 }

@@ -15,6 +15,7 @@ use DB;
 
 use Illuminate\Http\Request;
 
+
 class RegistrationController extends Controller
 {
     function userRegistration(Request $request)
@@ -38,6 +39,6 @@ class RegistrationController extends Controller
         }
         
         $user->save();
-        return view('home');
+        return view('login');
     }
 }

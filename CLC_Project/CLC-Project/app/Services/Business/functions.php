@@ -31,7 +31,8 @@ class functions
             session_start();
         }
         
-        $object = new UserModel($obj->getUserID(), $obj->getName(), $obj->getEmail(), $obj->getAge(), $obj->getUsername());
+        $object = new UserModel($obj->getUserID(), $obj->getName(), $obj->getEmail(), $obj->getAge(), $obj->getUsername()
+            , $obj->getRole());
         $_SESSION["USER"] = serialize($object);
         
     }
@@ -45,6 +46,26 @@ class functions
 
         $object = unserialize($_SESSION["USER"]);
         return $object;
+    }
+    
+    public function saveUserRole($role)
+    {
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
+        
+        $_SESSION["ROLE"] = $role;
+    }
+    
+    public function getUserRole()
+    {
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
+        
+        return $_SESSION["ROLE"];
     }
 }
 

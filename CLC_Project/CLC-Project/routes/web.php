@@ -34,6 +34,12 @@ Route::post('/accountRegistration', 'RegistrationController@userRegistration');
 
 Route::post('/loginProcess', 'LoginController@findUser');
 
+Route::post('/suspend', 'AdminController@suspendUser');
+
+Route::post('/ban', 'AdminController@banUser');
+
+Route::post('/delete', 'AdminController@deleteUser');
+
 Route::get('/login', function(){
    return view('login'); 
 });
@@ -42,9 +48,13 @@ Route::get('/register', function(){
    return view('users'); 
 });
 
-Route::get('/home', function()->name('home'){
-    return view('home');    
-});
+    Route::get('/home', function(){
+       return view('home'); 
+    });
+
+// Route::get('/home', function()->name('home'){
+//     return view('home');    
+// });
 
 Route::get('/profile', 'ProfileController@index');
 

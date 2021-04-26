@@ -63,17 +63,10 @@ main {flex-grow: 1;}
 </button>
 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 <div class="navbar-nav">
-@endif
-<</div>
+</div>
 <div class="navbar-nav ml-auto">
-@if(Session::get('user'))
-<a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
-<a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="/logout">Logout</a>
-@else
-<a class="nav-item nav-link active" href="home.blade.php">Home</a>
-<a class="nav-item nav-link active" href="login.blade.php">Login</a>
-<a class="nav-item nav-link active" href="users.blade.php">Register</a>
-@endif
+<a class="nav-item nav-link active" href="<?php echo url("/home")?>">Home</a>
+<a class="nav-item nav-link active" href="<?php echo url("/profile")?>">Profile</a>
 </div>
 </div>
 </nav>
@@ -82,7 +75,22 @@ main {flex-grow: 1;}
 <div class="col-sm-8">
 <h3>Member Dashboard</h3>
 <body>
-
+<h3 style="text-align: center;">
+Address: <?php echo $data[1]; ?> <br>
+City: <?php echo $data[2]; ?> <br>
+State: <?php echo $data[3]; ?> <br>
+Country: <?php echo $data[4]; ?> <br>
+Profession: <?php echo $data[5]; ?> <br>
+Bio: <?php echo $data[6]; ?> <br>
+Skills: <?php echo $data[7]; ?> <br>
+Years of Experience: <?php echo $data[8]; ?> <br>
+Previous Job Experience: <?php echo $data[9]; ?> <br>
+Willingness to Relocate: <?php echo $data[10]; ?> <br>
+Education: <?php echo $data[11]; ?> 
+</h3>
+<form action="updateProfile" METHOD="GET" style="text-align:center;">
+	<button class="Button" type="Submit">Update Profile</button>
+</form>
 </body>
 </div>
 </div>

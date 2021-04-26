@@ -8,14 +8,16 @@ class UserModel
     private $email;
     private $age;
     private $username;
+    private $role;
     
-    public function __construct($userID, $name, $email, $age, $username)
+    public function __construct($userID, $name, $email, $age, $username, $role)
     {
         $this->userID = $userID;
         $this->name = $name;
         $this->email = $email;
         $this->age = $age;
         $this->username = $username;
+        $this->role = $role;
     }
     
     public function getUserID()
@@ -43,6 +45,11 @@ class UserModel
         return $this->username;
     }
     
+    public function getRole()
+    {
+        return $this->role;
+    }
+    
     public function setUserID($userID)
     {
         $this->userID = $userID;
@@ -66,6 +73,11 @@ class UserModel
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+    
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 }
 

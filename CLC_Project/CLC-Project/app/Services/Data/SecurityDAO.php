@@ -21,7 +21,20 @@ class SecurityDAO
         if(mysqli_num_rows($result) == 1)
         {
             $row = $result->fetch_assoc();
-            $foundUser = new UserModel($row['id'], $row['name'], $row['email'], $row['age'], $row['username']);
+            
+            if($row['banned'] == 1)
+            {
+                echo "You are banned from the application!";
+                return false;
+            }
+            
+            if($row['suspended'] == 1)
+            {
+                echo "You are currently suspended from the application!";
+                return false;
+            }
+            
+            $foundUser = new UserModel($row['id'], $row['name'], $row['email'], $row['age'], $row['username'], $row['role']);
             return $foundUser;
         }
         else

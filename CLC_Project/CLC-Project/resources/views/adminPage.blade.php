@@ -71,17 +71,10 @@ Button:active {
 </button>
 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 <div class="navbar-nav">
-@endif
-<</div>
+</div>
 <div class="navbar-nav ml-auto">
-@if(Session::get('user'))
-<a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
-<a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="/logout">Logout</a>
-@else
-<a class="nav-item nav-link active" href="home.blade.php">Home</a>
-<a class="nav-item nav-link active" href="login.blade.php">Login</a>
-<a class="nav-item nav-link active" href="users.blade.php">Register</a>
-@endif
+<a class="nav-item nav-link active" href="<?php echo url("/home")?>">Home</a>
+<a class="nav-item nav-link active" href="<?php echo url("/profile")?>">Profile</a>
 </div>
 </div>
 </nav>
@@ -96,50 +89,36 @@ Button:active {
             <td>ID</td>
             <td>Name</td>
             <td>Email</td>
+            <td>Banned</td>
+            <td>Suspended</td>
         </tr>
-        @foreach ($users as $user)
-        <tr>
-            <td>{{ $user->id }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td><a href="{{ route('admin.index') }}" 
-                   onclick="event.preventDefault();
-                    document.getElementById(
-                      'delete-form-{{$user->id}}').submit();">
-                 Delete 
-                </a>
-            </td>
-            <form id="delete-form-{{$user->id}}" 
-                  + action="{{route('users.deleteUser', $user->id)}}"
-                  method="post">
-                @csrf @method('DELETE')
+        @for($i = 0; $i < count($users); $i++)
+        	<!-- The current value is {{ $i }}  --> 
+        	<!-- The current value is {{ $users[$i][2] }}  -->
+        	<tr>
+        		<td> {{ $users[$i][0] }} </td>
+        		<td> {{ $users[$i][1] }} </td>
+        		<td> {{ $users[$i][2] }} </td>
+        		<td> {{ $users[$i][6] }} </td>
+        		<td> {{ $users[$i][7] }} </td>
+        		<td>
+            		<form action="suspend" method="POST">
+            			<button name="suspend" type="submit" value="{{ $users[$i][0] }}">Suspend</button>
+            		</form>
+        		</td>
+        		<td>
+        			<form action="ban" method="POST">
+            			<button name="ban" type="submit" value="{{ $users[$i][0] }}">Ban</button>
+            		</form>
+        		</td>
+        		<td>
+        			<form action="delete" method="POST">
+            			<button name="delete" type="submit" value="{{ $users[$i][0] }}">Delete</button>
+            		</form>
+        		</td>
             </form>
-			<td><a href="{{ route('admin.index') }}" 
-                   onclick="event.preventDefault();
-                    document.getElementById(
-                      'suspend-form-{{$user->id}}').submit();">
-                 Suspend 
-                </a>
-            </td>
-            <form id="suspend-form-{{$user->id}}" 
-                  + action="{{route('users.suspendUser', $user->id)}}"
-                  method="post">
-                @csrf @method('SUSPEND')
-            </form>
-            <td><a href="{{ route('admin.index') }}" 
-                   onclick="event.preventDefault();
-                    document.getElementById(
-                      'edit-form-{{$user->id}}').submit();">
-                 Update 
-                </a>
-            </td>
-            <form id="edit-form-{{$user->id}}" 
-                  + action="editUser.php"
-                  method="post">
-                @csrf @method('UPDATE')
-            </form>
-        </tr>
-        @endforeach
+        	</tr>
+        @endfor
     </table>
 </body>
 </div>

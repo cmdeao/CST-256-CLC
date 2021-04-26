@@ -27,31 +27,21 @@ class LoginController extends Controller
         
         if(!$loginResult)
         {
-            echo "Failed to login to application";
+            echo "<br>Failed to login to application";
         }
         else
         {
             $functions = new functions();
             $functions->saveUserID($loginResult->getUserID());
             $functions->logUser($loginResult);
-
+            $functions->saveUserRole($loginResult);
+            
+            session(['USER_ID' => $loginResult->getUserID()]);
+            session(['user' => $loginResult->getUsername()]);
+            session(['role' => $loginResult->getRole()]);
+            session(['loggedUser' => 1]);
+            
             return view('home');
         }
-        
-//         $username = $request->input('username');
-//         $password = $request->input('password');
-//         $security = DB::table('users')->where('username', $username)->first();
-//         if(is_null($security))
-//         {
-//             echo "Please register an account before attempting to login to the application.";
-//             exit;
-//         }
-//         if($security->password != $password)
-//         {
-//             echo "Failed to login to application!";
-//             echo "TESTING!";
-//             exit;
-//         }
-//         return view('home'); 
     }
 }
