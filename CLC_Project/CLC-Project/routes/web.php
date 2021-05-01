@@ -28,6 +28,8 @@ Route::get('/model', 'TestController@testingModel');
 
 Route::get('/admin', 'AdminController@index');
 
+Route::get('jobPost', 'JobController@index');
+
 Route::post('/users', 'TestController@getData');
 
 Route::post('/accountRegistration', 'RegistrationController@userRegistration');
@@ -70,3 +72,10 @@ Route::post('/updateProcess', 'ProfileController@updateProfile');
 Route::get('/admin', 'AdminController@index')->name('admin.index');
 Route::delete('/user/{id}', 'AdminController@deleteUser')
     ->name('admin.deleteUser');
+
+    
+    Route::get('createPost', function(){
+       return view('resume'); 
+    });
+    
+    Route::get('/education', 'EducationController@index'); 
