@@ -27,6 +27,37 @@ class ProfileDAO
         }
     }
     
+    public function findResume($userID)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = "SELECT education.school,
+        education.degree,
+        education.field_of_study,
+        education.start_date,
+        education.end_date,
+        job_history.job_title,
+        job_history.company_name,
+        job_history.start_date,
+        job_history.end_date,
+        job_history.job_location,
+        job_history.job_description,
+        users_profiles.user_skills
+        FROM education
+        LEFT JOIN users_profiles ON users_profiles.user_id = 1
+        LEFT JOIN job_history ON job_history.id = 1
+        WHERE education.user_id = 1";
+        
+        $result = mysqli_query($database, $sql);
+        
+        if(mysqli_num_rows($result) == 1)
+        {
+            $row = $result->fetch_assoc();
+        }
+        
+    }
+    
     public function createProfile(UserProfileModel $profile)
     {
         echo "<br>CREATING PROFILE!";

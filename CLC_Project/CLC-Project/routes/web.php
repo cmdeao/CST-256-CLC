@@ -28,6 +28,8 @@ Route::get('/model', 'TestController@testingModel');
 
 Route::get('/admin', 'AdminController@index');
 
+Route::get('jobPost', 'JobController@index');
+
 Route::post('/users', 'TestController@getData');
 
 Route::post('/accountRegistration', 'RegistrationController@userRegistration');
@@ -39,6 +41,26 @@ Route::post('/suspend', 'AdminController@suspendUser');
 Route::post('/ban', 'AdminController@banUser');
 
 Route::post('/delete', 'AdminController@deleteUser');
+
+Route::post('/editPost', 'JobController@viewPost');
+
+Route::post('/updatePost', 'JobController@updatePost');
+
+Route::post('/deletePost', 'JobController@deletePost');
+
+Route::get('/newPost', function(){
+   return view('createPost'); 
+});
+
+Route::post('/createPost', 'JobController@createPost');
+
+Route::post('/skills', 'ResumeController@updateSkills');
+
+Route::post('/education', 'ResumeController@updateEducation');
+
+Route::post('/workHistory', 'ResumeController@updateWorkHistory');
+
+Route::get('/viewResume', 'ProfileController@viewResume');
 
 Route::get('/login', function(){
    return view('login'); 
@@ -60,6 +82,8 @@ Route::get('/profile', 'ProfileController@index');
 
 Route::get('/adminPage', 'AdminController@index');
 
+Route::get('/adminJobs', 'AdminController@viewJobs');
+
 Route::get('/updateProfile', function(){
    return view('testProfileTable'); 
 });
@@ -70,3 +94,9 @@ Route::post('/updateProcess', 'ProfileController@updateProfile');
 Route::get('/admin', 'AdminController@index')->name('admin.index');
 Route::delete('/user/{id}', 'AdminController@deleteUser')
     ->name('admin.deleteUser');
+
+    Route::get('/updateResume', function(){
+       return view('resume'); 
+    });
+    
+    Route::get('/education', 'EducationController@index'); 

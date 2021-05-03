@@ -7,6 +7,10 @@ use App\Services\Business\ProfileService;
 use App\Models\UserProfileModel;
 use App\Services\Business\functions;
 
+use App\Services\Business\EducationService;
+use App\Services\Business\JobHistoryService;
+use App\Services\Business\SkillsService;
+
 class ProfileController extends Controller
 {
     function index() 
@@ -29,6 +33,64 @@ class ProfileController extends Controller
             
             return view ('profile', $userData);
         }
+    }
+    
+    function viewResume()
+    {
+        $functions = new functions();
+        $service = new ProfileService();
+        $userID = $functions->getUserID();
+        //$resume = $service->findResume($userID);
+        
+        $profile = $service->getProfile($userID);
+        
+        $educationService = new EducationService();
+        $education = $educationService->getEducation($userID);
+        
+        $jobService = new JobHistoryService();
+        $jobHistory = $jobService->getAllJobHistory($userID);
+        
+        $skillsService = new SkillsService();
+        $skills = $skillsService->getAllSkills($userID);
+        
+        $userData['data'] = [$education->getSchool(), $education->getDegree(),
+            $education->getStudy(), $education->getStartDate(), $education->getEndDate(),
+            $jobHistory[0][1], $jobHistory[0][0], $jobHistory[0][2], $jobHistory[0][3],
+            $jobHistory[0][5], $skills];
+        
+        return view ('viewResume', $userData);
+        
+        //echo count($education);
+//         for($i = 0; $i < count($education); $i++)
+//         {
+//             echo $education[$i];
+//         }
+        //$userData['data'] = [$education[]]
+        
+//         if(count($jobHistory) == 0)
+//         {
+//             echo "NO JOB HISTORY";
+//         }
+//         else
+//         {
+//             echo "FOUND STUFF";
+//         }
+
+
+
+//         if(!$profile)
+//         {
+//             return view('testProfileTable');
+//         }
+//         else
+//         {
+//             $userData['data'] = [$profile->getUserID(), $profile->getAddress(), $profile->getCity(), $profile->getState(),
+//                 $profile->getCountry(), $profile->getProfession(), $profile->getBio(), $profile->getSkills(),
+//                 $profile->getYearsExperience(), $profile->getJobExperience(), $profile->getRelocation(), $profile->getEducation()
+//             ];
+            
+//             return view ('viewResume', $userData);
+//         }
     }
     
     function updateProfile(Request $request)
