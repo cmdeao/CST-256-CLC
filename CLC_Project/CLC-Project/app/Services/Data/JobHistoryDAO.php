@@ -9,7 +9,7 @@ class JobHistoryDAO
         $link = new Database();
         $database = $link->getConnection();
         
-        $sql = "SELECT * FROM job_history WHERE user_id = '$userID'";
+        $sql = "SELECT * FROM job_history WHERE id = '$userID'";
         $result = mysqli_query($database, $sql);
         
         $index = 0;
@@ -18,13 +18,12 @@ class JobHistoryDAO
         while($row = $result->fetch_assoc())
         {
             $jobHistory[$index] = array($row['job_title'], $row['company_name'], $row['start_date'],
-                $row['end_date'], $row['job_location'], $row['job_description'], $row['user_id']);
+                $row['end_date'], $row['job_location'], $row['job_description'], $row['id']);
             ++$index;
         }
         
         $result->free();
         mysqli_close($database);
-        
         return $jobHistory;
     }
     
@@ -42,7 +41,7 @@ class JobHistoryDAO
         $userID = $history->getUserID();
         
         $sql = "INSERT INTO job_history (job_title, company_name, start_date, end_date,
-            job_location, job_description, user_id) VALUES ('$title', '$company', '$startDate',
+            job_location, job_description, id) VALUES ('$title', '$company', '$startDate',
                 '$endDate', '$location', '$description', '$userID')";
         
         if(mysqli_query($database, $sql))
@@ -53,6 +52,7 @@ class JobHistoryDAO
         else
         {
             echo "Failed to create job history of " . $title . " for user " . $userID . "<br>";
+            echo "Issue: " . $database->error . "<br>";
             return false;
         }
     }
@@ -72,6 +72,35 @@ class JobHistoryDAO
         else
         {
             echo "Failed to delete job history " . $historyID . " for user " . $userID . "<br>";
+            return false;
+        }
+    }
+    
+    public function updateJobHistory(JobHistory $history, $userID)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $title = $history->getTitle();
+        $company = $history->getCompany();
+        $startDate = $history->getStartDate();
+        $endDate = $history->getEndDate();
+        $location = $history->getLocation();
+        $description = $history->getDescription();
+        
+        $sql = $database->prepare("UPDATE job_history SET job_title=?, company_name=?,
+            start_date=?, end_date=?, job_location=?, job_description=? WHERE id = '$userID'");
+
+        $sql->bind_param("ssssss", $title, $company, $startDate, $endDate, $location,
+                $description);
+        $sql->execute();
+        
+        if($sql)
+        {
+            return true;
+        }
+        else
+        {
             return false;
         }
     }

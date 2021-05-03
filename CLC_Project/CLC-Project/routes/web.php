@@ -42,6 +42,26 @@ Route::post('/ban', 'AdminController@banUser');
 
 Route::post('/delete', 'AdminController@deleteUser');
 
+Route::post('/editPost', 'JobController@viewPost');
+
+Route::post('/updatePost', 'JobController@updatePost');
+
+Route::post('/deletePost', 'JobController@deletePost');
+
+Route::get('/newPost', function(){
+   return view('createPost'); 
+});
+
+Route::post('/createPost', 'JobController@createPost');
+
+Route::post('/skills', 'ResumeController@updateSkills');
+
+Route::post('/education', 'ResumeController@updateEducation');
+
+Route::post('/workHistory', 'ResumeController@updateWorkHistory');
+
+Route::get('/viewResume', 'ProfileController@viewResume');
+
 Route::get('/login', function(){
    return view('login'); 
 });
@@ -62,6 +82,8 @@ Route::get('/profile', 'ProfileController@index');
 
 Route::get('/adminPage', 'AdminController@index');
 
+Route::get('/adminJobs', 'AdminController@viewJobs');
+
 Route::get('/updateProfile', function(){
    return view('testProfileTable'); 
 });
@@ -73,8 +95,7 @@ Route::get('/admin', 'AdminController@index')->name('admin.index');
 Route::delete('/user/{id}', 'AdminController@deleteUser')
     ->name('admin.deleteUser');
 
-    
-    Route::get('createPost', function(){
+    Route::get('/updateResume', function(){
        return view('resume'); 
     });
     

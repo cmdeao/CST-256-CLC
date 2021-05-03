@@ -16,6 +16,7 @@ class EducationDAO
         {
             $result->free();
             mysqli_close($database);
+            return null;
         }
         elseif(mysqli_num_rows($result) == 1)
         {

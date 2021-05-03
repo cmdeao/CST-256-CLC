@@ -11,6 +11,12 @@ class ProfileService
         return $service->findProfile($userID);
     }
     
+    public function findResume($userID)
+    {
+        $service = new ProfileDAO();
+        return $service->findResume($userID);
+    }
+    
     public function insertProfile(UserProfileModel $profile)
     {
         $service = new ProfileDAO();
@@ -22,5 +28,7 @@ class ProfileService
         $service = new ProfileDAO();
         return $service->updateProfile($profile);
     }
+    
+    
 }
 

@@ -82,14 +82,15 @@ State: <?php echo $data[3]; ?> <br>
 Country: <?php echo $data[4]; ?> <br>
 Profession: <?php echo $data[5]; ?> <br>
 Bio: <?php echo $data[6]; ?> <br>
-Skills: <?php echo $data[7]; ?> <br>
 Years of Experience: <?php echo $data[8]; ?> <br>
-Previous Job Experience: <?php echo $data[9]; ?> <br>
 Willingness to Relocate: <?php echo $data[10]; ?> <br>
-Education: <?php echo $data[11]; ?> 
 </h3>
 <form action="updateProfile" METHOD="GET" style="text-align:center;">
 	<button class="Button" type="Submit">Update Profile</button>
+</form>
+
+<form action="viewResume" METHOD="GET" style="text-align:center;">
+	<button class="Button" type="Submit">View Resume</button>
 </form>
 </body>
 </div>

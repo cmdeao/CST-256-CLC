@@ -38,4 +38,67 @@ class JobController extends Controller
 //             echo "Post Title: " . $jobs[$i][2] . "<br>";
 //         }
     }
+    
+    function viewPost(Request $request)
+    {
+        $ID = $request->input('editpost');
+        return view('editPost')->with('ID', $ID);
+    }
+    
+    function updatePost(Request $request)
+    {
+        $service = new JobService();
+        
+        $jobID = $request->input('jobID');
+        $postDate = $request->input('postdate');
+        $postTitle = $request->input('title');
+        $company = $request->input('company');
+        $skills = $request->input('prefskills');
+        $details = $request->input('jobdetails');
+        
+        $updatedJob = new JobPosting($jobID, $postDate, $postTitle, $company, $skills, $details);
+        
+        if($service->editPosting($updatedJob))
+        {
+            echo "We've updated the job!";
+        }
+        else
+        {
+            echo "We failed to update the job!";
+        }
+        
+        return redirect()->action('AdminController@viewJobs');
+    }
+    
+    function deletePost(Request $request)
+    {
+        $service = new JobService();
+        $postID = $request->input('delete');
+        if($service->deleteJobPosting($postID))
+        {
+            return redirect()->action('AdminController@viewJobs');
+        }
+    }
+    
+    function createPost(Request $request)
+    {
+        $postDate = $request->input('postdate');
+        $postTitle = $request->input('jobtitle');
+        $company = $request->input('company');
+        $skills = $request->input('prefskills');
+        $details = $request->input('jobdetails');
+        
+        $newJob = new JobPosting(null, $postDate, $postTitle, $company,
+            $skills, $details);
+        
+        $service = new JobService();
+        if($service->createJobPosting($newJob))
+        {
+            return redirect()->action('AdminController@viewJobs');
+        }
+        else
+        {
+            echo "Failed to create new job!";
+        }
+    }
 }

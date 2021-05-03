@@ -101,5 +101,33 @@ class JobDAO
             return false;
         }
     }
+    
+    public function editPosting(JobPosting $jobPosting)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = $database->prepare("UPDATE job_postings SET post_date=?, post_title=?, company=?, preferred_skills=?, 
+            job_details=? WHERE post_id=?");
+        
+        $jobID = $jobPosting->getJobID();
+        $postDate = $jobPosting->getJobPostDate();
+        $postTitle = $jobPosting->getPostTitle();
+        $company = $jobPosting->getCompany();
+        $skills = $jobPosting->getSkills();
+        $details = $jobPosting->getJobDetails();
+        
+        $sql->bind_param("sssssi", $postDate, $postTitle, $company, $skills, $details, $jobID);
+        $sql->execute();
+        
+        if($sql)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 

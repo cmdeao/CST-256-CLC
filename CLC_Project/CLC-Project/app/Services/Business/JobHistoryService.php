@@ -11,10 +11,16 @@ class JobHistoryService
         return $service->getAllJobHistory($userID);
     }
     
-    public function createJobHistory(JobHistory $history, $userID)
+    public function createJobHistory(JobHistory $history)
     {
         $service = new JobHistoryDAO();
-        return $service->createJobHistory($history, $userID);
+        return $service->createJobHistory($history);
+    }
+    
+    public function updateJobHistory(JobHistory $history, $userID)
+    {
+        $service = new JobHistoryDAO();
+        return $service->updateJobHistory($history, $userID);
     }
     
     public function deleteJobHistory($historyID, $userID)

@@ -46,8 +46,7 @@ button:active {
 </button>
 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 <div class="navbar-nav">
-@endif
-<</div>
+</div>
 <div class="navbar-nav ml-auto">
 @if(Session::get('user'))
 <a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
@@ -69,7 +68,7 @@ button:active {
 when building out the controller, we can choose to have the user
  update the tables individually or as one form submittal. -->
 
-<form action="" method="post" return="false">
+<form action="skills" method="POST" return="false">
 
 <!-- This section will update the skills table-->
 
@@ -107,7 +106,7 @@ when building out the controller, we can choose to have the user
 <!-- This section will update the education table-->
 
 <div class="form-group" id="mySchool">
-  <form action=" " method="post" >
+  <form action="education" method="POST" >
   <br>
     <h3>Education</h3>
 
@@ -115,13 +114,13 @@ when building out the controller, we can choose to have the user
     <input type="date"name="startdate" required>
 
     <label for="enddate"><b>End Date</b></label>
-    <input type="date"name="startdate" required>
+    <input type="date"name="enddate" required>
 
-    <label for="school"><b>Company</b></label>
+    <label for="school"><b>School</b></label>
     <input type="text" placeholder="Enter School Name" name="school" required>
 
 	<label for="degree"><b>Degree</b></label>
-    <select class="box">
+    <select class="box" name="study">
 	  <option>Certification</option>
       <option>Diploma</option>
       <option>Associates</option>
@@ -129,7 +128,7 @@ when building out the controller, we can choose to have the user
     </select>
  <br>
 	<label for="degree"><b>Field of Study</b></label>
-    <input type="text" placeholder="Enter Field of Study" name="jobtitle" required>
+    <input type="text" placeholder="Enter Field of Study" name="degree" required>
    
     <button type="submit" class="btn">Submit</button>
 	<br>
@@ -140,14 +139,14 @@ when building out the controller, we can choose to have the user
 <!-- This section will update the work history table-->
 
 <div class="form-group" id="myWork">
-  <form action="" method="post"  >
+  <form action="workHistory" method="POST">
     <h3>Work History</h3>
 
     <label for="startdate"><b>Start Date</b></label>
     <input type="date"name="startdate" required>
 
     <label for="enddate"><b>End Date</b></label>
-    <input type="date"name="startdate" required>
+    <input type="date"name="enddate" required>
 
     <label for="company"><b>Company</b></label>
     <input type="text" placeholder="Enter Company Name" name="company" required>
@@ -156,7 +155,8 @@ when building out the controller, we can choose to have the user
     <input type="text" placeholder="Enter Job Title" name="jobtitle" required>
 
 	<label for="description"><b>Job Description</b></label>
-    <textarea type="text" rows="6" cols="80"name="description"  class="form-control" required> Enter Position Details </textarea>
+    <textarea type="text" rows="6" cols="80"name="description" required class="form-control"
+    	placeholder="Enter Position Details"></textarea>
 	<br>
     <button type="submit" class="btn">Submit</button>
   </form>

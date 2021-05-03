@@ -17,6 +17,12 @@ class JobService
         return $service->findByID($jobID);
     }
     
+    public function editPosting(JobPosting $jobPosting)
+    {
+        $service = new JobDAO();
+        return $service->editPosting($jobPosting);
+    }
+    
     public function createJobPosting(JobPosting $jobPosting)
     {
         $service = new JobDAO();

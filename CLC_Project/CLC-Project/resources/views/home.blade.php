@@ -37,7 +37,8 @@ height:600px;
 @endif
 
 @if(Session::get('role') == 2)
-<a class="nav-item nav-link active" href="<?php echo url("/adminPage")?>">Admin</a>
+<a class="nav-item nav-link active" href="<?php echo url("/adminPage")?>">Admin Users</a>
+<a class="nav-item nav-link active" href="<?php echo url("/adminJobs")?>">Admin Job Postings</a>
 @endif
 </div>
 </div>
@@ -45,7 +46,7 @@ height:600px;
 </header>
 <div class="content d-flex justify-content-center">
 Welcome to the Application<br>
-	Please return next week to see version 0.3 of the application!
+	Please return next week to see version 0.4 of the application!
 </div>
 <footer class="container"></footer>
 </body>

@@ -86,28 +86,30 @@ Button:active {
 <body>
     <table>
         <tr>
+        	<td>ID</td>
             <td>Posting Date</td>
             <td>Position Title</td>
             <td>Company</td>
             <td>Pref. Skills</td>
             <td>Job Details</td>
+            <td>Update Job</td>
+            <td>Delete Job</td>
         </tr>
         @for($i = 0; $i < count($postings); $i++)
-        	<!-- The current value is {{ $i }}  --> 
-        	<!-- The current value is {{ $postings[$i][2] }}  -->
         	<tr>
         		<td> {{ $postings[$i][0] }} </td>
         		<td> {{ $postings[$i][1] }} </td>
         		<td> {{ $postings[$i][2] }} </td>
-        		<td> {{ $postings[$i][6] }} </td>
-        		<td> {{ $postings[$i][7] }} </td>
+        		<td> {{ $postings[$i][3] }} </td>
+        		<td> {{ $postings[$i][4] }} </td>
+        		<td> {{ $postings[$i][5] }} </td>
         		<td>
         			<form action="<?php echo url("/editPost")?>" method="POST">
             			<button name="editpost" type="submit" value="{{ $postings[$i][0] }}">Edit</button>
             		</form>
         		</td>
         		<td>
-        			<form action="delete" method="POST">
+        			<form action="deletePost" method="POST">
             			<button name="delete" type="submit" value="{{ $postings[$i][0] }}">Delete</button>
             		</form>
         		</td>
@@ -115,6 +117,9 @@ Button:active {
         	</tr>
         @endfor
     </table>
+    <form action="newPost" method="GET">
+		<button name="delete" type="submit">Create New Job Posting</button>
+	</form>
 </body>
 </div>
 </form>
