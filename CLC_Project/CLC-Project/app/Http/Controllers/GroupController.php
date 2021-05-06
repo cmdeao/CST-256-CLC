@@ -60,14 +60,14 @@ class GroupController extends Controller
 //                echo "Failed to delete group from controller!<br>";
 //            }
 
-//             if($service->addUser(5, 1))
-//             {
-//                 echo "Added user to the group!<br>";
-//             }
-//             else
-//             {
-//                 echo "Failed to add user to the group!<br>";
-//             }
+            if($service->addUser(6, 1))
+            {
+                echo "Added user to the group!<br>";
+            }
+            else
+            {
+                echo "Failed to add user to the group!<br>";
+            }
 
 //             if($service->removeUser(2, 1))
 //             {
@@ -78,7 +78,7 @@ class GroupController extends Controller
 //                 echo "Failed to remove user from the group!<br>";
 //             }
 
-            $service->addAdmin(6,1);
+//             $service->addAdmin(6,1);
             
     }
 }
