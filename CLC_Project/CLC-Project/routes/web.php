@@ -95,8 +95,10 @@ Route::get('/admin', 'AdminController@index')->name('admin.index');
 Route::delete('/user/{id}', 'AdminController@deleteUser')
     ->name('admin.deleteUser');
 
-    Route::get('/updateResume', function(){
-       return view('resume'); 
-    });
-    
-    Route::get('/education', 'EducationController@index'); 
+Route::get('/updateResume', function(){
+   return view('resume'); 
+});
+
+Route::get('/education', 'EducationController@index');
+
+Route::get('/groups', 'GroupController@index');
