@@ -4,6 +4,27 @@ use App\Models\GroupModel;
 
 class GroupDAO
 {
+    public function searchGroups($term)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = "SELECT * FROM groups WHERE group_name LIKE " . "'%" . $term . "%'";
+        $result = mysqli_query($database, $sql);
+        
+        $index = 0;
+        $groups = array();
+        
+        while($row = $result->fetch_assoc())
+        {
+            $groups[$index] = array($row['group_id'], $row['group_name'],
+                $row['group_details'], $row['group_admins_id'], $row['group_member_id']);
+            ++$index;
+        }
+        
+        return $groups;
+    }
+    
     public function getGroup($groupID)
     {
         $link = new Database();

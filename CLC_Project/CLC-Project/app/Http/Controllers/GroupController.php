@@ -60,14 +60,14 @@ class GroupController extends Controller
 //                echo "Failed to delete group from controller!<br>";
 //            }
 
-            if($service->addUser(6, 1))
-            {
-                echo "Added user to the group!<br>";
-            }
-            else
-            {
-                echo "Failed to add user to the group!<br>";
-            }
+//             if($service->addUser(6, 1))
+//             {
+//                 echo "Added user to the group!<br>";
+//             }
+//             else
+//             {
+//                 echo "Failed to add user to the group!<br>";
+//             }
 
 //             if($service->removeUser(2, 1))
 //             {
@@ -79,6 +79,26 @@ class GroupController extends Controller
 //             }
 
 //             $service->addAdmin(6,1);
+
+            $groups = $service->searchGroups("Test");
+            echo "Got groups!";
+            
+            echo "ID: " . $groups[0][0] . "<br>";
+            echo "Group Name: " . $groups[0][1] . "<br>";
+            echo "Group Details: " . $groups[0][2] . "<br>";
+            echo "Group Admins: " . $groups[0][3] . "<br>";
+            echo "Group Members: " . $groups[0][4] . "<br>";
+            
+            echo "ID: " . $groups[1][0] . "<br>";
+            echo "Group Name: " . $groups[1][1] . "<br>";
+            echo "Group Details: " . $groups[1][2] . "<br>";
+            echo "Group Admins: " . $groups[1][3] . "<br>";
+            echo "Group Members: " . $groups[1][4] . "<br>";
+            
+//             for($i = 0; $i < count($groups); $i++) 
+//             {
+//                 echo $groups[0][$i] . "<br>";
+//             }
             
     }
 }

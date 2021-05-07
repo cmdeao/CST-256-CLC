@@ -5,6 +5,12 @@ use App\Models\GroupModel;
 
 class GroupService
 {
+    public function searchGroups($term)
+    {
+        $service = new GroupDAO();
+        return $service->searchGroups($term);
+    }
+    
     public function getGroup($groupID)
     {
         $service = new GroupDAO();
