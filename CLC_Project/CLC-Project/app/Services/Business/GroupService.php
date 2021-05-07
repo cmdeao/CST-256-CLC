@@ -17,6 +17,12 @@ class GroupService
         return $service->getGroup($groupID);
     }
     
+    public function getAllGroups()
+    {
+        $service = new GroupDAO();
+        return $service->getAllGroups();
+    }
+    
     public function createGroup(GroupModel $group)
     {
         $service = new GroupDAO();
@@ -51,6 +57,12 @@ class GroupService
     {
         $service = new GroupDAO();
         return $service->addAdmin($adminID, $groupID);
+    }
+    
+    public function getGroupMembers($memberID)
+    {
+        $service = new GroupDAO();
+        return $service->getGroupMembers($memberID);
     }
 }
 

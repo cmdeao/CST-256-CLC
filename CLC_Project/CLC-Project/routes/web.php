@@ -102,3 +102,17 @@ Route::get('/updateResume', function(){
 Route::get('/education', 'EducationController@index');
 
 Route::get('/groups', 'GroupController@index');
+
+Route::get('/newGroup', function(){
+    return view('createGroup');
+});
+
+Route::Post('/createGroup', 'GroupController@createGroup');
+
+Route::get('/showGroups', 'GroupController@showGroups');
+
+Route::POST('/viewGroup', 'GroupController@displayGroup');
+
+Route::POST('/joinGroup', 'GroupController@joinGroup');
+//Route::get('/viewGroup', 'GroupController@displayGroup');
+//Route::post('/viewGroup' 'GroupController@displayGroup')

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Services\Business\GroupService;
-
 use App\Models\GroupModel;
+use App\Services\Business\functions;
 
 class GroupController extends Controller
 {
@@ -94,11 +93,85 @@ class GroupController extends Controller
             echo "Group Details: " . $groups[1][2] . "<br>";
             echo "Group Admins: " . $groups[1][3] . "<br>";
             echo "Group Members: " . $groups[1][4] . "<br>";
-            
+            //TESTING
 //             for($i = 0; $i < count($groups); $i++) 
 //             {
 //                 echo $groups[0][$i] . "<br>";
 //             }
             
+    }
+    
+    function createGroup(Request $request)
+    {
+        $service = new GroupService();
+        
+        $groupName = $request->input('groupName');
+        $groupDetails = $request->input('groupDetails');
+        
+        $newGroup = new GroupModel(null, $groupName, $groupDetails, null, null);
+        
+        if($service->createGroup($newGroup))
+        {
+            echo "We've created a new group!<br>";
+        }
+        else
+        {
+            echo "We've failed to create a new group!<br>";
+        }
+        
+        return redirect()->action('GroupController@showGroups');
+    }
+    
+    function displayGroup(Request $request)
+    {
+        $id = $request->input('displayGroup');
+        $service = new GroupService();
+        $group = $service->getGroup($id);
+        
+        $groupName = $group->getGroupName();
+        $groupDetails = $group->getGroupDetails();
+        $users = $group->getGroupMembers();
+        
+        $userids = str_replace(',' , '', $users);
+        $userarray = str_split($userids);
+        
+        $usernames = array();
+        
+        for($i = 0; $i < count($userarray); $i++)
+        {
+            array_push($usernames, $service->getGroupMembers($userarray[$i]));
+        }
+        
+        $groupMembers['groupMembers'] = $usernames;
+        
+        $groupid = $id;
+        return view('showGroup', array("groupName"=>$groupName, "groupDetails"=>$groupDetails,
+            "groupid"=>$groupid), $groupMembers);        
+        
+    }
+    
+    function showGroups()
+    {
+        $service = new GroupService();
+        $groups = $service->getAllGroups();
+        return view('affinityGroupList')->with(compact('groups'));
+    }
+    
+    function joinGroup(Request $request)
+    {   
+        $service = new GroupService();
+        $functions = new functions();
+        $userID = $functions->getUserID();
+        $groupID = $request->input('join');
+        
+        if($service->addUser($userID, $groupID))
+        {
+            return redirect()->action('GroupController@showGroups');
+        }
+        else
+        {
+            //echo "You can't join the group!";
+            return redirect()->action('GroupController@showGroups');
+        }
     }
 }
