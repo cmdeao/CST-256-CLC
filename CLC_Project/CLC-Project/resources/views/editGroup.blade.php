@@ -7,31 +7,31 @@
 background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
 height:900px;
 }
-
-.button {
-	box-shadow:inset 0px 1px 3px 0px #91b8b3;
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	background-color:#768d87;
+Button {
+	box-shadow:inset 0px 1px 2px 0px #91b8b3;
+	background:linear-gradient(to bottom, #446480 5%, #1A4265 100%);
+	background-color:#446480;
 	border-radius:5px;
 	border:1px solid #566963;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:15px;
+	font-size:10px;
 	font-weight:bold;
-	padding:11px 23px;
+	padding:5px 12px;
 	text-decoration:none;
 	text-shadow:0px -1px 0px #2b665e;
 }
-.button:hover {
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	background-color:#6c7c7c;
+Button:hover {
+	background:linear-gradient(to bottom, #1A4265 5%, #446480 100%);
+	background-color:#1A4265;
 }
-.button:active {
+Button:active {
 	position:relative;
 	top:1px;
 }
+
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -40,15 +40,14 @@ height:900px;
 </head>
 <body>
 <header>
-<nav class="navbar navbar-expand-lg navbar-light" style="background:#668B8B">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background:#446480">
 <a class="navbar-brand" href="/"><h3>Job Search</h3></a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 <span class="navbar-toggler-icon"></span>
 </button>
 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 <div class="navbar-nav">
-@endif
-<</div>
+</div>
 <div class="navbar-nav ml-auto">
 @if(Session::get('user'))
 <a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
@@ -64,32 +63,42 @@ height:900px;
 </header>
 <div class="content d-flex justify-content-center">
 <div class="col-sm-8">
-<h3>Edit User</h3>
-<form action="users.updateRole" method="post" return="false">
+<div style="float: left; width:70%">
+<h3>Update Affinity Group</h3>
+<form action="confirmEdit" method="POST" return="false">
 <div class="form-group">
-<label>Name
-<input type="text" name="name"class="form-control" placeholder="Enter Name" required>
+<input type="hidden" id="groupID" name="groupID" value="{{$ID}}">
+<label>Group Name</label><br>
+<input type="text" name="groupName" placeholder="Group Name">
 </div>
 <div class="form-group">
-<label>Email
-<input type="text" name="email" class="form-control" placeholder="Enter Email" required>
+<label>Group Details
+<textarea type="text" rows="12" cols="45"name="groupDetails"  class="form-control"> Update Group Details </textarea>
 </div>
+<button class="Button" type="submit" style="background-color:#446480">Update</button>
+</form>
+</div>
+</div>
+<div style="float:right; width:30%">
+<div class="col-sm-8">
+<h3>Group Members</h3>
 <div class="form-group">
-<label>Age
-<input type="age" name="age" class="form-control" placeholder="Enter Age" min="18" max="100" required>
+<input type="hidden" id="groupID" name="groupID" value="{{$ID}}">
+<body>
+    <table>
+        @for($i = 0; $i < count($groupMembers); $i++)
+        	<tr>
+        		<td> {{ $groupMembers[$i] }} </td>
+				<td>
+                    <form action="removeUser" method="POST">
+                    	<input type="hidden" id="groupID" name="groupID" value="{{$ID}}">
+            		  	<button class="remove" name="user" type="submit" value="{{ $groupMembers[$i] }}">Remove</button>
+            		</form>
+        		</td>
+    	</tr>
+        @endfor
+	</table>
+</body>
 </div>
-<div class="form-group">
-<label>Username
-<input type="username" name="username"  class="form-control" placeholder="Enter Username" required>
-</div>
-<div class="form-group">
-<label>Password</label>
-<input type="password" name="password" class="form-control" placeholder="Enter Password" required>
-</div>
-<div class="form-group">
-<label>Role</label>
-<input type="role" name="role" class="form-control" placeholder="Enter User Role" required>
-</div>
-<button class="button" type="submit" style="background-color:#668B8B">Submit</button>
 </form>
 </div>

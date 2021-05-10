@@ -5,7 +5,7 @@
 <style>
 .content{
 background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
-height:600px;
+height:900px;
 }
 
 Button {

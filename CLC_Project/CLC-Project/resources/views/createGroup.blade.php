@@ -7,8 +7,7 @@
 background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
 height:900px;
 }
-
-Button {
+button {
 	box-shadow:inset 0px 1px 3px 0px #91b8b3;
 	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
 	background-color:#768d87;
@@ -24,29 +23,13 @@ Button {
 	text-decoration:none;
 	text-shadow:0px -1px 0px #2b665e;
 }
-Button:hover {
+button:hover {
 	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
 	background-color:#6c7c7c;
 }
-Button:active {
+button:active {
 	position:relative;
 	top:1px;
-}
-html {
-  height: 100%;
-}
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  grid-template-rows: 1fr auto;
-}
-main {flex-grow: 1;}
-.footer {
-  position: fixed;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  text-align: center;
 }
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -65,34 +48,30 @@ main {flex-grow: 1;}
 <div class="navbar-nav">
 </div>
 <div class="navbar-nav ml-auto">
-<a class="nav-item nav-link active" href="<?php echo url("/home")?>">Home</a>
-<a class="nav-item nav-link active" href="<?php echo url("/profile")?>">Profile</a>
+@if(Session::get('user'))
+<a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
+<a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="/logout">Logout</a>
+@else
+<a class="nav-item nav-link active" href="home.blade.php">Home</a>
+<a class="nav-item nav-link active" href="login.blade.php">Login</a>
+<a class="nav-item nav-link active" href="users.blade.php">Register</a>
+@endif
 </div>
 </div>
 </nav>
 </header>
 <div class="content d-flex justify-content-center">
 <div class="col-sm-8">
-<h3>Member Dashboard</h3>
-<body>
-<h3 style="text-align: center;">
-Address: <?php echo $data[1]; ?> <br>
-City: <?php echo $data[2]; ?> <br>
-State: <?php echo $data[3]; ?> <br>
-Country: <?php echo $data[4]; ?> <br>
-Profession: <?php echo $data[5]; ?> <br>
-Bio: <?php echo $data[6]; ?> <br>
-Years of Experience: <?php echo $data[8]; ?> <br>
-Willingness to Relocate: <?php echo $data[10]; ?> <br>
-</h3>
-<form action="updateProfile" METHOD="GET" style="text-align:center;">
-	<button class="Button" type="Submit">Update Profile</button>
-</form>
-
-<form action="viewResume" METHOD="GET" style="text-align:center;">
-	<button class="Button" type="Submit">View Resume</button>
-</form>
-</body>
+<h3>Create An Affinity Group</h3>
+<form action="createGroup" method="post" return="false">
+<div class="form-group">
+<label>Group Name</label><br>
+<input type="text" name="groupName" placeholder="Enter Group Name" required>
 </div>
+<div class="form-group">
+<label>Group Details
+<textarea type="text" rows="6" cols="80"name="groupDetails"  class="form-control" required placeholder="Enter Group's Details "></textarea>
 </div>
-
+<button class="button" type="submit" style="background-color:#668B8B">Submit</button>
+</form>
+</div>

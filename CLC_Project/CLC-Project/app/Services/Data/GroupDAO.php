@@ -47,6 +47,30 @@ class GroupDAO
         }
     }
     
+    public function getAllGroups()
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = "SELECT * FROM groups";
+        $result = mysqli_query($database, $sql);
+        
+        $index = 0;
+        $groups = array();
+        
+        while($row = $result->fetch_assoc())   
+        {
+            $groups[$index] = array($row['group_id'], $row['group_name'],
+                $row['group_details'], $row['group_admins_id'], $row['group_member_id']);
+            ++$index;
+        }
+        
+        $result->free();
+        mysqli_close($database);
+        
+        return $groups;
+    }
+    
     public function createGroup(GroupModel $group)
     {
         $link = new Database();
@@ -56,6 +80,15 @@ class GroupDAO
         $groupDetails = $group->getGroupDetails();
         $groupAdmins = $group->getGroupAdmins();
         $groupMembers = $group->getGroupMembers();
+        
+        $retrievalSQL = "SELECT group_name FROM groups WHERE group_name = '$groupName'";
+        $retrievalResult = mysqli_query($database, $retrievalSQL);
+        
+        if(mysqli_num_rows($retrievalResult) == 1)
+        {
+            echo "A group already has this name!<br>";
+            return false;
+        }
         
         $sql = "INSERT INTO groups (group_name, group_details, group_admins_id, group_member_id)
             VALUES ('$groupName', '$groupDetails', '$groupAdmins', '$groupMembers')";
@@ -133,19 +166,26 @@ class GroupDAO
         {
             $row = $result->fetch_assoc();
             $str = $row['group_member_id'];
-           
-            $newSTR = str_replace(',', '', $str);
-            $array = str_split($newSTR);
-            
-            for($i = 0; $i < count($array); $i++)
+          
+            if($str != "")
             {
-                if($array[$i] == $userID)
+                $newSTR = str_replace(',', '', $str);
+                $array = str_split($newSTR);
+                
+                for($i = 0; $i < count($array); $i++)
                 {
-                    return false;
+                    if($array[$i] == $userID)
+                    {
+                        return false;
+                    }
                 }
+                
+                $str = $str . "," . $userID;
             }
-            
-            $str = $str . "," . $userID;
+            else
+            {
+                $str = $userID;
+            }
             
             $sql = $database->prepare("UPDATE groups SET group_member_id=? WHERE group_id='$groupID'");
             $sql->bind_param('s', $str);
@@ -170,12 +210,15 @@ class GroupDAO
     
     public function removeUser($userID, $groupID)
     {
+        echo "Inside remove user!";
+        echo "<br>GROUP ID: " . $groupID . "<br>";
         $link = new Database();
         $database = $link->getConnection();
         
         $sql = "SELECT group_member_id FROM groups WHERE group_id = '$groupID'";
         $result = mysqli_query($database, $sql);
         
+        echo "<br>Ran first query!<br>";
         if(mysqli_num_rows($result) == 1)
         {
             $row = $result->fetch_assoc();
@@ -207,7 +250,7 @@ class GroupDAO
             $sql = $database->prepare("UPDATE groups SET group_member_id=? WHERE group_id='$groupID'");
             $sql->bind_param('s', $finalSTR);
             $sql->execute();
-            
+            echo "<br>Executed statement!<br>";
             if($sql)
             {
                 echo "We've updated the values!<br>";
@@ -222,8 +265,35 @@ class GroupDAO
         }
         else
         {
+            echo "<br>We found nothing!<br>";
             return false;
         }
+    }
+    
+    public function adminRemoveUser($username, $groupID)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = "SELECT id FROM users WHERE name = '$username'";
+        $result = mysqli_query($database, $sql);
+        $userID;
+        
+        if(mysqli_num_rows($result) == 1)
+        {
+            $row = $result->fetch_assoc();
+            $userID = $row['id'];
+        }
+        
+        if($this->removeUser($userID, $groupID))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        //echo "User ID: " . $userID;
     }
     
     public function addAdmin($adminID, $groupID)
@@ -270,6 +340,27 @@ class GroupDAO
         else
         {
             return false;
+        }
+    }
+    
+    public function getGroupMembers($memberID)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = "SELECT name FROM users WHERE id = '$memberID'";
+        $result = mysqli_query($database, $sql);
+        
+        if(mysqli_num_rows($result) == 1)
+        {
+            $row = $result->fetch_assoc();
+            $name = $row['name'];
+            
+            return $name;
+        }
+        else
+        {
+            return null;
         }
     }
 }

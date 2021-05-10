@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>CLC Project: CST-256
+<title>Admin Page
 </title>
 <style>
 .content{
@@ -32,22 +32,30 @@ Button:active {
 	position:relative;
 	top:1px;
 }
-html {
-  height: 100%;
-}
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  grid-template-rows: 1fr auto;
-}
-main {flex-grow: 1;}
-.footer {
-  position: fixed;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  text-align: center;
-}
+ table {
+            color: #668B8B;
+            font-family: Arial;
+            font-weight: bold;
+            width: 640px;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+          
+        td,
+        th {
+            border: 1px solid #CCC;
+            height: 30px;
+        }
+          
+        th {
+            background: #F3F3F3;
+            
+        }
+          
+        td {
+            background: #FAFAFA;
+            text-align: center;
+        }
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -73,26 +81,47 @@ main {flex-grow: 1;}
 </header>
 <div class="content d-flex justify-content-center">
 <div class="col-sm-8">
-<h3>Member Dashboard</h3>
+<h3>Affinity Groups</h3>
+<div class="form-group">
 <body>
-<h3 style="text-align: center;">
-Address: <?php echo $data[1]; ?> <br>
-City: <?php echo $data[2]; ?> <br>
-State: <?php echo $data[3]; ?> <br>
-Country: <?php echo $data[4]; ?> <br>
-Profession: <?php echo $data[5]; ?> <br>
-Bio: <?php echo $data[6]; ?> <br>
-Years of Experience: <?php echo $data[8]; ?> <br>
-Willingness to Relocate: <?php echo $data[10]; ?> <br>
-</h3>
-<form action="updateProfile" METHOD="GET" style="text-align:center;">
-	<button class="Button" type="Submit">Update Profile</button>
-</form>
-
-<form action="viewResume" METHOD="GET" style="text-align:center;">
-	<button class="Button" type="Submit">View Resume</button>
-</form>
+    <table>
+        <tr>
+        	<td>Group ID</td>
+            <td>Group Name</td>
+            <td>Group Details</td>
+            <td>Group Admins</td>
+            <td>Group Users</td>
+        </tr>
+        @for($i = 0; $i < count($groups); $i++)
+        	<tr>
+        		<td> {{ $groups[$i][0] }} </td>
+        		<td> {{ $groups[$i][1] }} </td>
+        		<td> {{ $groups[$i][2] }} </td>
+        		<td> {{ $groups[$i][3] }} </td>
+        		<td> {{ $groups[$i][4] }} </td>
+        		<td>
+        			<form action="<?php echo url("/viewGroup")?>" method="POST">
+            			<button name="displayGroup" type="submit" value="{{ $groups[$i][0] }}">Select</button>
+					</form>
+				</td>
+					<!-- Displaying buttons for Admin users -->
+				@if(Session::get('role') == 2)
+				<td>
+        			<form action="editGroup" method="POST">
+            			<button name="editGroup" type="submit" value="{{ $groups[$i][0] }}">Edit</button>
+            		</form>
+        		</td>
+        		<td>
+        			<form action="deleteGroup" method="POST">
+            			<button name="delete" type="submit" value="{{ $groups[$i][0] }}">Delete</button>
+            		</form>
+        		</td>
+        		@endif
+				</tr>
+		@endfor
+	</table>	
+	Not finding what you're looking for? Start an Affinity Group <a href="<?php echo url("/newGroup")?>">here</a> 
 </body>
 </div>
+</form>
 </div>
-

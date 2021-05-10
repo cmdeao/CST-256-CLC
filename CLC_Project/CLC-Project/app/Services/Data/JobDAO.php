@@ -4,6 +4,27 @@ use App\Models\JobPosting;
 
 class JobDAO
 {
+    public function searchJobs($term)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = "SELECT * FROM job_postings WHERE post_title LIKE " . "'%" . $term . "%'";
+        $result = mysqli_query($database, $sql);
+        
+        $index = 0;
+        $jobs = array();
+        
+        while($row = $result->fetch_assoc())
+        {
+            $jobs[$index] = array($row['post_id'], $row['post_date'], $row['post_title'],
+                $row['company'], $row['preferred_skills'], $row['job_details']);
+            ++$index;
+        }
+        
+        return $jobs;
+    }
+    
     public function getAllJobs()   
     {
         $link = new Database();
