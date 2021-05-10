@@ -210,12 +210,15 @@ class GroupDAO
     
     public function removeUser($userID, $groupID)
     {
+        echo "Inside remove user!";
+        echo "<br>GROUP ID: " . $groupID . "<br>";
         $link = new Database();
         $database = $link->getConnection();
         
         $sql = "SELECT group_member_id FROM groups WHERE group_id = '$groupID'";
         $result = mysqli_query($database, $sql);
         
+        echo "<br>Ran first query!<br>";
         if(mysqli_num_rows($result) == 1)
         {
             $row = $result->fetch_assoc();
@@ -247,7 +250,7 @@ class GroupDAO
             $sql = $database->prepare("UPDATE groups SET group_member_id=? WHERE group_id='$groupID'");
             $sql->bind_param('s', $finalSTR);
             $sql->execute();
-            
+            echo "<br>Executed statement!<br>";
             if($sql)
             {
                 echo "We've updated the values!<br>";
@@ -262,8 +265,35 @@ class GroupDAO
         }
         else
         {
+            echo "<br>We found nothing!<br>";
             return false;
         }
+    }
+    
+    public function adminRemoveUser($username, $groupID)
+    {
+        $link = new Database();
+        $database = $link->getConnection();
+        
+        $sql = "SELECT id FROM users WHERE name = '$username'";
+        $result = mysqli_query($database, $sql);
+        $userID;
+        
+        if(mysqli_num_rows($result) == 1)
+        {
+            $row = $result->fetch_assoc();
+            $userID = $row['id'];
+        }
+        
+        if($this->removeUser($userID, $groupID))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        //echo "User ID: " . $userID;
     }
     
     public function addAdmin($adminID, $groupID)

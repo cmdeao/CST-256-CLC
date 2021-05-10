@@ -74,7 +74,12 @@ Button:active {
 <label><?php echo $groupDetails; ?></label>
 </div>
 <!-- <button class="Button" type="submit" style="background-color:#446480">Join Group!</button>  --> 
+
+@if($inGroup == false)
 <button name="join" type="submit" value="<?php echo $groupid; ?>" style="background-color:#446480">Join Group!</button>
+@else
+<button name="leave" type="submit" value="<?php echo $groupid; ?>" style="background-color:#446480">Leave Group!</button>
+@endif
 </form>
 </div>
 </div>

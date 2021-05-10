@@ -5,6 +5,12 @@ use App\Services\Data\JobDAO;
 
 class JobService
 {
+    public function searchJobs($term)
+    {
+        $service = new JobDAO();
+        return $service->searchJobs($term);
+    }
+    
     public function getAllJobs()
     {
         $service = new JobDAO();

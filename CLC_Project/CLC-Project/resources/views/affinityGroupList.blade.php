@@ -86,8 +86,11 @@ Button:active {
 <body>
     <table>
         <tr>
+        	<td>Group ID</td>
             <td>Group Name</td>
             <td>Group Details</td>
+            <td>Group Admins</td>
+            <td>Group Users</td>
         </tr>
         @for($i = 0; $i < count($groups); $i++)
         	<tr>
@@ -102,8 +105,8 @@ Button:active {
 					</form>
 				</td>
 					<!-- Displaying buttons for Admin users -->
+				@if(Session::get('role') == 2)
 				<td>
-					
         			<form action="editGroup" method="POST">
             			<button name="editGroup" type="submit" value="{{ $groups[$i][0] }}">Edit</button>
             		</form>
@@ -113,6 +116,7 @@ Button:active {
             			<button name="delete" type="submit" value="{{ $groups[$i][0] }}">Delete</button>
             		</form>
         		</td>
+        		@endif
 				</tr>
 		@endfor
 	</table>	

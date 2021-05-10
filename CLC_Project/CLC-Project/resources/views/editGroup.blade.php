@@ -65,7 +65,7 @@ Button:active {
 <div class="col-sm-8">
 <div style="float: left; width:70%">
 <h3>Update Affinity Group</h3>
-<form action="editGroup" method="GET" return="false">
+<form action="confirmEdit" method="POST" return="false">
 <div class="form-group">
 <input type="hidden" id="groupID" name="groupID" value="{{$ID}}">
 <label>Group Name</label><br>
@@ -88,15 +88,11 @@ Button:active {
     <table>
         @for($i = 0; $i < count($groupMembers); $i++)
         	<tr>
-        		<td> {{ $groupMembers[$i][0] }} </td>
-        		<td> {{ $groupMembers[$i][1] }} </td>
-        		<td> {{ $groupMembers[$i][2] }} </td>
-        		<td> {{ $groupMembers[$i][3] }} </td>
-        		<td> {{ $groupMembers[$i][4] }} </td>
-        		<td> {{ $groupMembers[$i][5] }} </td>
+        		<td> {{ $groupMembers[$i] }} </td>
 				<td>
-                    <form action="delete" method="POST">
-            		  <button class="remove" type="submit" value="{{ $groupMembers[$i][0] }}">Remove</button>
+                    <form action="removeUser" method="POST">
+                    	<input type="hidden" id="groupID" name="groupID" value="{{$ID}}">
+            		  	<button class="remove" name="user" type="submit" value="{{ $groupMembers[$i] }}">Remove</button>
             		</form>
         		</td>
     	</tr>

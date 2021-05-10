@@ -92,8 +92,10 @@ Button:active {
             <td>Company</td>
             <td>Pref. Skills</td>
             <td>Job Details</td>
+            @if(Session::get('role') == 2)
             <td>Update Job</td>
             <td>Delete Job</td>
+            @endif
         </tr>
         @for($i = 0; $i < count($postings); $i++)
         	<tr>
@@ -103,6 +105,7 @@ Button:active {
         		<td> {{ $postings[$i][3] }} </td>
         		<td> {{ $postings[$i][4] }} </td>
         		<td> {{ $postings[$i][5] }} </td>
+        		@if(Session::get('role') == 2)
         		<td>
         			<form action="<?php echo url("/editPost")?>" method="POST">
             			<button name="editpost" type="submit" value="{{ $postings[$i][0] }}">Edit</button>
@@ -113,13 +116,16 @@ Button:active {
             			<button name="delete" type="submit" value="{{ $postings[$i][0] }}">Delete</button>
             		</form>
         		</td>
+        		@endif
             </form>
         	</tr>
         @endfor
     </table>
+    @if(Session::get('role') == 2)
     <form action="newPost" method="GET">
 		<button name="delete" type="submit">Create New Job Posting</button>
 	</form>
+	@endif
 </body>
 </div>
 </form>

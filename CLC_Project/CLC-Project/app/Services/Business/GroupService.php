@@ -53,6 +53,12 @@ class GroupService
         return $service->removeUser($userID, $groupID);
     }
     
+    public function adminRemoveUser($username, $groupID)
+    {
+        $service = new GroupDAO();
+        return $service->adminRemoveUser($username, $groupID);
+    }
+    
     public function addAdmin($adminID, $groupID)
     {
         $service = new GroupDAO();
