@@ -13,6 +13,7 @@ class SearchController extends Controller
         $searchTerm = $request->input('search');
         if($request->submit == "jobs")
         {
+            //TESTING
             $service = new JobService();
             $postings = $service->searchJobs($searchTerm);
             return view('jobPostAdmin')->with(compact('postings'));
