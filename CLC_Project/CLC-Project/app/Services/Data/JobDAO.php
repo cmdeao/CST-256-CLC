@@ -9,7 +9,10 @@ class JobDAO
         $link = new Database();
         $database = $link->getConnection();
         
-        $sql = "SELECT * FROM job_postings WHERE post_title LIKE " . "'%" . $term . "%'";
+        //$sql = "SELECT * FROM job_postings WHERE post_title LIKE " . "'%" . $term . "%'";
+        $sql = "SELECT * FROM job_postings WHERE post_title LIKE " . "'%" . $term . "%'
+                UNION DISTINCT 
+                SELECT * FROM job_postings WHERE job_details LIKE " . "'%" . $term . "%'";
         $result = mysqli_query($database, $sql);
         
         $index = 0;
