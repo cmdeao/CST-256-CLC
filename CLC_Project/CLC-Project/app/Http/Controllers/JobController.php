@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\Business\JobService;
+use App\Services\Business\JobApplicationService;
+use App\Services\Business\functions;
 use App\Models\JobPosting;
 use Illuminate\Http\Request;
 
@@ -100,5 +102,28 @@ class JobController extends Controller
         {
             echo "Failed to create new job!";
         }
+    }
+    
+    function viewJobPosting(Request $request)
+    {
+        $jobID = $request->input('displayJob');
+        $service = new JobService();
+        $jobAppService = new JobApplicationService();
+        
+        $foundJob = $service->findByID($jobID);
+        $postDate = $foundJob->getJobPostDate();
+        $postTitle = $foundJob->getPostTitle();
+        $company = $foundJob->getCompany();
+        $skills = $foundJob->getSkills();
+        $jobDetails = $foundJob->getJobDetails();
+        
+        $functions = new functions();
+        $userID = $functions->getUserID();
+        $applicationStatus = $jobAppService->checkApplication($jobID, $userID);
+        
+        return view('showJob', array("postDate"=>$postDate, "postTitle"=>$postTitle,
+            "company"=>$company, "skills"=>$skills, "jobDetails"=>$jobDetails,
+            "jobID"=>$jobID, "applicationStatus"=>$applicationStatus
+        ));
     }
 }

@@ -9,5 +9,11 @@ class JobApplicationService
         $service = new JobApplicationDAO();
         return $service->createJobApplication($jobID, $userID);
     }
+    
+    public function checkApplication($jobID, $userID)
+    {
+        $service = new JobApplicationDAO();
+        return $service->checkApplication($jobID, $userID);
+    }
 }
 

@@ -125,6 +125,6 @@ Route::POST('/removeUser', 'GroupController@removeUser');
 
 Route::POST('/searchProcess', 'SearchController@searchMethod');
 
-Route::GET('/application', 'ApplicationController@index');
-//Route::get('/viewGroup', 'GroupController@displayGroup');
-//Route::post('/viewGroup' 'GroupController@displayGroup')
+Route::POST('/submitApp', 'ApplicationController@jobApplication');
+
+Route::POST('/showJob', 'JobController@viewJobPosting');
