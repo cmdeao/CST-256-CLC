@@ -1,7 +1,7 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>CLC Project: CST-256
-</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 .content{
 background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
@@ -32,13 +32,30 @@ Button:active {
 	top:1px;
 }
 
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: flex;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.app-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
-<body>
 <header>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background:#446480">
 <a class="navbar-brand" href="/"><h3>Job Search</h3></a>
@@ -62,44 +79,40 @@ Button:active {
 </nav>
 </header>
 <body>
+
 <div class="content d-flex justify-content-center">
 <div class="col-sm-8">
 <h3>View Job Posting</h3>
-<form  action="submitApp" method="POST" return="false">
-<input type="hidden" id="jobID" name="jobID" value=<?php echo $jobID; ?>>
-<label>Posting Date: <?php echo $postDate; ?></label><br>
-<label>Position Title <?php echo $postTitle; ?></label><br>
-<label>Company<?php echo $company; ?></label><br>
-<label>Preferred Skills <?php echo $skills; ?></label><br>
-<label>Job Details <?php echo $jobDetails; ?></label><br>
+<label><h3>Posting Date:</h3> <?php echo $postDate; ?></label><br>
+<label><h3>Position Title:</h3> <?php echo $postTitle; ?></label><br>
+<label><h3>Company:</h3> <?php echo $company; ?></label><br>
+<label><h3>Preferred Skills:</h3> <?php echo $skills; ?></label><br>
+<label><h3>Job Details:</h3> <?php echo $jobDetails; ?></label><br>
 @if($applicationStatus == false)
-<button type="submit" onclick="openForm()">Apply</button>
+<button class="open-button" onclick="openConfirm()">Apply</button>
 @else
-<button type="submit" onclick="openForm()" disabled>Application Processing</button>
+<button class="open-button" disabled>Application Submitted!</button>
 @endif
-</form>
-</div>
 </div>
 
-<!-- Pop up confirming application submittal -->
 
-<div class="form-popup" id="appConfirm">
-  <form class="form-container" method="GET">
+<div class="form-popup" id="myForm">
+  <form action="submitApp" method="POST" return="false" class="app-container">
+  		<input type="hidden" id="jobID" name="jobID" value=<?php echo $jobID; ?>>
 		<label>{{Session::get('user')}} has applied for the <?php echo $postTitle; ?> position.</label>
-		<button onclick="closeForm()">Close</button>
+		<button type="submit" onclick="closeConfirm()">Close</button>
 	</form>
 </div>
 
-<!--scripts to open and close pop up form-->
-
 <script>
-function openForm() {
-  document.getElementById("appConfirm").style.display = "block";
+function openConfirm() {
+  document.getElementById("myForm").style.display = "block";
 }
 
-function closeForm() {
-  document.getElementById("appConfirm").style.display = "none";
+function closeConfirm() {
+  document.getElementById("myForm").style.display = "none";
 }
 </script>
+
 </body>
 </html>
