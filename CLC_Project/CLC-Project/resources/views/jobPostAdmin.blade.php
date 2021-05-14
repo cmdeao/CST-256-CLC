@@ -61,6 +61,8 @@ Button:active {
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 </head>
 <body>
 <header>
@@ -84,48 +86,63 @@ Button:active {
 <h3>Job Postings</h3>
 <div class="form-group">
 <body>
-    <table>
-        <tr>
-        	<td>ID</td>
-            <td>Posting Date</td>
-            <td>Position Title</td>
-            <td>Company</td>
-            <td>Pref. Skills</td>
-            <td>Job Details</td>
-            @if(Session::get('role') == 2)
-            <td>Update Job</td>
-            <td>Delete Job</td>
-            @endif
-        </tr>
-        @for($i = 0; $i < count($postings); $i++)
-        	<tr>
-        		<td> {{ $postings[$i][0] }} </td>
-        		<td> {{ $postings[$i][1] }} </td>
-        		<td> {{ $postings[$i][2] }} </td>
-        		<td> {{ $postings[$i][3] }} </td>
-        		<td> {{ $postings[$i][4] }} </td>
-        		<td> {{ $postings[$i][5] }} </td>
-        		@if(Session::get('role') == 2)
-        		<td>
-        			<form action="<?php echo url("/editPost")?>" method="POST">
-            			<button name="editpost" type="submit" value="{{ $postings[$i][0] }}">Edit</button>
-            		</form>
-        		</td>
-        		<td>
-        			<form action="deletePost" method="POST">
-            			<button name="delete" type="submit" value="{{ $postings[$i][0] }}">Delete</button>
-            		</form>
-        		</td>
-        		@endif
-            </form>
-        	</tr>
-        @endfor
-    </table>
+<table id="jobs" class="display">
+<thead>
+	<tr>
+		<th>ID</th>
+		<td>Posting Date</td>
+		<th>Position Title</th>
+		<th>Company</th>
+		<th>Pref. Skills</th>
+		<th>Job Details</th>
+		<th>View Job</th>
+		<th>Update Job</th>
+		<th>Delete Job</th>
+	</tr>
+</thead>
+<tbody>
+@for($i = 0; $i < count($postings); $i++)
+<tr>
+	<td> {{ $postings[$i][0] }} </td>
+	<td> {{ $postings[$i][1] }} </td>
+	<td> {{ $postings[$i][2] }} </td>
+	<td> {{ $postings[$i][3] }} </td>
+	<td> {{ $postings[$i][4] }} </td>
+	<td> {{ $postings[$i][5] }} </td>
+	<td>
+		<form action="<?php echo url("/showJob")?>" method="POST">
+			<button name="displayJob" type="submit" value="{{ $postings[$i][0] }}">View Job</button>
+		</form>
+	</td>
+	@if(Session::get('role') == 2)
+	<td>
+		<form action="<?php echo url("/editPost")?>" method="POST">
+			<button name="editpost" type="submit" value="{{ $postings[$i][0] }}">Edit</button>
+		</form>
+	</td>
+	<td>
+		<form action="deletePost" method="POST">
+			<button name="delete" type="submit" value="{{ $postings[$i][0] }}">Delete</button>
+		</form>
+	</td>
+	@endif
+</tr>
+@endfor
+</tbody>
+</table>
+
     @if(Session::get('role') == 2)
     <form action="newPost" method="GET">
 		<button name="delete" type="submit">Create New Job Posting</button>
 	</form>
 	@endif
+
+
+	<script>
+	$(document).ready( function () {
+		$('#jobs').DataTable();
+	});	
+</script>
 </body>
 </div>
 </form>
