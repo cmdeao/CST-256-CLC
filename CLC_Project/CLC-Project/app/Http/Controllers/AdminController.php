@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\Business\AdminService;
 use App\Services\Business\JobService;
+use App\Services\Utility\ILoggerService;
 
 class AdminController extends Controller
 {
+    protected $logger;
+    
+    public function __construct(ILoggerService $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     function index()   
     {
+        $this->logger->info("Entering AdminController::index()", null);
         $service = new AdminService();
         $users = $service->getAllUsers();
         
@@ -20,14 +29,24 @@ class AdminController extends Controller
     {
         $service = new AdminService();
         $userID = $request->input('suspend');
+        $this->logger->info("Entering AdminController::suspendUser() with value: ", $userID);
         
-        if($service->suspendUser($userID))
-        {   
-            return redirect()->action('AdminController@index');
-        }
-        else
+        try
         {
-            echo "Failed to suspend User ID: '$userID'";
+            if($service->suspendUser($userID))
+            {
+                $this->logger->info("Exiting AdminController::suspendUser()", null);
+                return redirect()->action('AdminController@index');
+            }
+            else
+            {
+                $this->logger->error("Error occurred AdminController::suspendUser() with value: ", $userID);
+                echo "Failed to suspend User ID: '$userID'";
+            }
+        }
+        catch(exception $e)
+        {
+            $this->logger->error("Exception AdminController::suspendUser() ", $e->getMessage());   
         }
     }
     
@@ -35,29 +54,49 @@ class AdminController extends Controller
     {
         $service = new AdminService();
         $userID = $request->input('ban');
+        $this->logger->info("Entering AdminController::banUser() with value: ", $userID);
         
-        if($service->banUser($userID))
+        try
         {
-            return redirect()->action('AdminController@index'); 
+            if($service->banUser($userID))
+            {
+                $this->logger->info("Exiting AdminController::suspendUser()", null);
+                return redirect()->action('AdminController@index');
+            }
+            else
+            {
+                $this->logger->error("Error occurred AdminController::banUser() with value: ", $userID);
+                echo "Failed to ban User ID: '$userID'";
+            }
         }
-        else
+        catch(exception $e)
         {
-            echo "Failed to ban User ID: '$userID'";
-        }
+            $this->logger->error("Exception AdminController::banUser() ", $e->getMessage());   
+        }    
     }
     
     function deleteUser(Request $request)
     {
         $service = new AdminService();
         $userID = $request->input('delete');
+        $this->logger->info("Entering AdminController::deleteUser()", null);
         
-        if($service->deleteUser($userID))
+        try 
         {
-            return redirect()->action('AdminController@index');
+            if($service->deleteUser($userID))
+            {
+                $this->logger->info("Exiting AdminController::deleteUser()", null);
+                return redirect()->action('AdminController@index');
+            }
+            else
+            {
+                $this->logger->error("Error occurred AdminController::deleteUser() with value: ", $userID);
+                echo "Failed to delete User ID: '$userID'";
+            }    
         }
-        else
+        catch (Exception $e) 
         {
-            echo "Failed to delete User ID: '$userID'";
+            $this->logger->error("Exception AdminController::deleteUser() ", $e->getMessage());   
         }
     }
     
@@ -65,6 +104,7 @@ class AdminController extends Controller
     {
         $service = new JobService();
         $postings = $service->getAllJobs();
+        $this->logger->info("Entering AdminController::viewJobs()", null);
         return view('jobPostAdmin')->with(compact('postings'));
     }
 }

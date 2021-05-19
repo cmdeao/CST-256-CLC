@@ -79,5 +79,10 @@ class UserModel
     {
         $this->role = $role;
     }
+    
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }
 

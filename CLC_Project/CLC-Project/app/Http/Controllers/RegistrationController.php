@@ -12,14 +12,24 @@ namespace App\Http\Controllers;
 
 use App\User;
 use DB;
+use App\Services\Utility\ILoggerService;
 
 use Illuminate\Http\Request;
 
 
 class RegistrationController extends Controller
 {
+    protected $logger;
+    
+    public function __construct(ILoggerService $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     function userRegistration(Request $request)
     {   
+        $this->logger->info("Entering RegistrationController::userRegistration", null);
+        
         $user = new User;
         $user->name = $request->input('name');
         $user->email = $request->input('email');
@@ -38,7 +48,17 @@ class RegistrationController extends Controller
             exit;
         }
         
-        $user->save();
+        try 
+        {
+            $user->save();
+            $this->logger->info("Registered user.", null);
+        }
+        catch (Exception $e) 
+        {
+            $this->logger->error("Exception RegistrationController::userRegistration ", $e->getMessage());  
+        }
+        
+        $this->logger->info("Exiting RegistrationController::userRegistration", null);
         return view('login');
     }
 }

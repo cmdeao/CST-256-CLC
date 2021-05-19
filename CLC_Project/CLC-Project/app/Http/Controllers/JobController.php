@@ -7,9 +7,17 @@ use App\Services\Business\JobApplicationService;
 use App\Services\Business\functions;
 use App\Models\JobPosting;
 use Illuminate\Http\Request;
+use App\Services\Utility\ILoggerService;
 
 class JobController extends Controller
 {
+    protected $logger;
+    
+    public function __construct(ILoggerService $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     function index()
     {
         echo "Inside JobController Index<br>";
@@ -44,6 +52,7 @@ class JobController extends Controller
     function viewPost(Request $request)
     {
         $ID = $request->input('editpost');
+        $this->logger->info("Entering JobController::viewPost() ", $ID);
         return view('editPost')->with('ID', $ID);
     }
     
@@ -58,32 +67,54 @@ class JobController extends Controller
         $skills = $request->input('prefskills');
         $details = $request->input('jobdetails');
         
+        $this->logger->info("Entering JobController::updatePost() ", $jobID);
+        
         $updatedJob = new JobPosting($jobID, $postDate, $postTitle, $company, $skills, $details);
         
-        if($service->editPosting($updatedJob))
+        try 
         {
-            echo "We've updated the job!";
-        }
-        else
+            if($service->editPosting($updatedJob))
+            {
+                $this->logger->info("Updated job posting: ", $jobID);
+            }
+            else
+            {
+                $this->logger->error("Error occurred JobController::updatePost() ", $jobID);
+            }
+        } 
+        catch (Exception $e) 
         {
-            echo "We failed to update the job!";
+            $this->logger->error("Exception JobController::updatePost() ", $e->getMessage());   
         }
         
+        $this->logger->info("Exiting JobController::updatePost() ", null);
         return redirect()->action('AdminController@viewJobs');
     }
     
     function deletePost(Request $request)
     {
+        $this->logger->info("Entering JobController::deletePost() ", null);
         $service = new JobService();
         $postID = $request->input('delete');
-        if($service->deleteJobPosting($postID))
+        
+        try 
         {
-            return redirect()->action('AdminController@viewJobs');
+            if($service->deleteJobPosting($postID))
+            {
+                $this->logger->info("Deleted job posting: ", $postID);
+                $this->logger->info("Exiting JobController::deletePost() ", null);
+                return redirect()->action('AdminController@viewJobs');
+            }
+        } 
+        catch (Exception $e) 
+        {
+            $this->logger->error("Exception JobController::deletePost() ", $e->getMessage());   
         }
     }
     
     function createPost(Request $request)
     {
+        $this->logger->info("Entering JobController::createPost() ", null);
         $postDate = $request->input('postdate');
         $postTitle = $request->input('jobtitle');
         $company = $request->input('company');
@@ -94,18 +125,30 @@ class JobController extends Controller
             $skills, $details);
         
         $service = new JobService();
-        if($service->createJobPosting($newJob))
+        
+        try 
         {
-            return redirect()->action('AdminController@viewJobs');
-        }
-        else
+            if($service->createJobPosting($newJob))
+            {
+                $this->logger->info("Created new job posting.", null);
+                $this->logger->info("Exiting JobController::createPost(). ", null);
+                return redirect()->action('AdminController@viewJobs');
+            }
+            else
+            {
+                $this->logger->error("Error occurred creating new job posting.", null);
+                echo "Failed to create new job!";
+            }
+        } 
+        catch (Exception $e) 
         {
-            echo "Failed to create new job!";
+            $this->logger->error("Exception JobController::createPost() ", $e->getMessage());   
         }
     }
     
     function viewJobPosting(Request $request)
     {
+        $this->logger->info("Entering JobController::viewJobPosting() ", null);
         $jobID = $request->input('displayJob');
         $service = new JobService();
         $jobAppService = new JobApplicationService();
@@ -121,6 +164,7 @@ class JobController extends Controller
         $userID = $functions->getUserID();
         $applicationStatus = $jobAppService->checkApplication($jobID, $userID);
         
+        $this->logger->info("Exiting JobController::createPost() ", null);
         return view('showJob', array("postDate"=>$postDate, "postTitle"=>$postTitle,
             "company"=>$company, "skills"=>$skills, "jobDetails"=>$jobDetails,
             "jobID"=>$jobID, "applicationStatus"=>$applicationStatus
