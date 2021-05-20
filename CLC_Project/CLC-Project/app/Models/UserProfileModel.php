@@ -152,5 +152,10 @@ class UserProfileModel
     {
         $this->education = $education;
     }
+    
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }
 
