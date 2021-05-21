@@ -128,3 +128,9 @@ Route::POST('/searchProcess', 'SearchController@searchMethod');
 Route::POST('/submitApp', 'ApplicationController@jobApplication');
 
 Route::POST('/showJob', 'JobController@viewJobPosting');
+
+Route::resource('/usersrest', 'UserRestController');
+
+Route::resource('/jobsrest', 'JobRestController');
+
+Route::resource('/profilerest', 'ProfileRestController');

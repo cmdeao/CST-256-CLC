@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use App\Services\Business\GroupService;
 use App\Models\GroupModel;
 use App\Services\Business\functions;
+use App\Services\Utility\ILoggerService;
 
 class GroupController extends Controller
 {
+    protected $logger;
+    
+    public function __construct(ILoggerService $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     function index()
     {
         $service = new GroupService();
@@ -103,6 +111,7 @@ class GroupController extends Controller
     
     function createGroup(Request $request)
     {
+        $this->logger->info("Entering GroupController::createGroup()", null);
         $service = new GroupService();
         
         $groupName = $request->input('groupName');
@@ -110,29 +119,50 @@ class GroupController extends Controller
         
         $newGroup = new GroupModel(null, $groupName, $groupDetails, null, null);
         
-        if($service->createGroup($newGroup))
+        try 
         {
-            echo "We've created a new group!<br>";
-        }
-        else
+            if($service->createGroup($newGroup))
+            {
+                //echo "We've created a new group!<br>";
+                $this->logger->info("Created new group: ", $groupName);
+            }
+            else
+            {
+                $this->logger->error("Failed to create new group!", null);
+            }
+        } 
+        catch (Exception $e) 
         {
-            echo "We've failed to create a new group!<br>";
+            $this->logger->error("Exception GroupController::createGroup() ", $e->getMessage());   
         }
-        
+
+        $this->logger->info("Exiting GroupController::createGroup()", null);
         return redirect()->action('GroupController@showGroups');
     }
     
     function deleteGroup(Request $request)
     {
+        $this->logger->info("Entering GroupController::deleteGroup()", null);
         $service = new GroupService();
         $groupID = $request->input('delete');
         
-        $service->deleteGroup($groupID);
+        try 
+        {
+            $this->logger->info("Deleted group ID: ", $groupID);
+            $service->deleteGroup($groupID);
+        } 
+        catch (Exception $e) 
+        {
+            $this->logger->error("Exception GroupController::deleteGroup() ", $e->getMessage());   
+        }
+        
+        $this->logger->info("Exiting GroupController::deleteGroup()", null);
         return redirect()->action('GroupController@showGroups');
     }
     
     function displayGroup(Request $request)
     {
+        $this->logger->info("Entering GroupController::displayGroup()", null);
         $inGroup = false;
         $id = $request->input('displayGroup');
         $service = new GroupService();
@@ -168,6 +198,7 @@ class GroupController extends Controller
         $groupMembers['groupMembers'] = $usernames;
         
         $groupid = $id;
+        $this->logger->info("Exiting GroupController::displayGroup() ", $groupid);
         return view('showGroup', array("groupName"=>$groupName, "groupDetails"=>$groupDetails,
             "groupid"=>$groupid, "inGroup"=>$inGroup), $groupMembers);        
         
@@ -175,8 +206,10 @@ class GroupController extends Controller
     
     function showGroups()
     {
+        $this->logger->info("Entering GroupController::showGroups()", null);
         $service = new GroupService();
         $groups = $service->getAllGroups();
+        $this->logger->info("Exiting GroupController::showGroups()", $groups);
         return view('affinityGroupList')->with(compact('groups'));
     }
     
@@ -200,24 +233,11 @@ class GroupController extends Controller
         }
         
         return redirect()->action('GroupController@showGroups');
-        
-//         $service = new GroupService();
-//         $functions = new functions();
-//         $userID = $functions->getUserID();
-//         $groupID = $request->input('join');
-        
-//         if($service->addUser($userID, $groupID))
-//         {
-//             return redirect()->action('GroupController@showGroups');
-//         }
-//         else
-//         {
-//             return redirect()->action('GroupController@showGroups');
-//         }
     }
     
     function editGroup(Request $request)
     {   
+        $this->logger->info("Entering GroupController::editGroup()", null);
         $service = new GroupService();
         $ID = $request->input('editGroup');
         
@@ -235,11 +255,13 @@ class GroupController extends Controller
         }
         
         $groupMembers['groupMembers'] = $usernames;
+        $this->logger->info("Exiting GroupController::editGroup() ", $ID);
         return view('editGroup', array("ID"=>$ID), $groupMembers);
     }
     
     function confirmEdit(Request $request)
     {
+        $this->logger->info("Entering GroupController::confirmEdit()", null);
         $service = new GroupService();
         
         $groupID = $request->input('groupID');
@@ -251,21 +273,42 @@ class GroupController extends Controller
         $newGroup = new GroupModel($groupID, $groupName, $groupDetails,
             $oldGroup->getGroupAdmins(), $oldGroup->getGroupMembers());
         
-        if($service->editGroup($newGroup))
+        try 
         {
-            return redirect()->action('GroupController@showGroups');
-        }
-        else
+            if($service->editGroup($newGroup))
+            {
+                $this->logger->info("Edited group: ", $groupID);
+                return redirect()->action('GroupController@showGroups');
+            }
+            else
+            {
+                $this->logger->error("Error editing group: ", $groupID);
+                return redirect()->action('GroupController@showGroups');
+            }
+        } 
+        catch (Exception $e) 
         {
-            return redirect()->action('GroupController@showGroups');
+            $this->logger->error("Exception GroupController::confirmEdit() ", $e->getMessage());   
         }
     }
     
     function removeUser(Request $request)
     {
+        $this->logger->info("Entering GroupController::confirmEdit()", null);
         $groupID = $request->input('groupID');
-        $service = new GroupService();   
-        $service->adminRemoveUser($request->input('user'), $request->input('groupID'));
+        $service = new GroupService();
+        
+        try 
+        {
+            $service->adminRemoveUser($request->input('user'), $request->input('groupID'));
+            $this->logger->info("Removed user: ", $request->input('user'));
+        } 
+        catch (Exception $e) 
+        {
+            $this->logger->error("Exception GroupController::removeUser() ", $e->getMessage());   
+        }
+        
+        $this->logger->info("Exiting GroupController::removeUser()", null);
         return redirect()->action('GroupController@showGroups');
     }
 }

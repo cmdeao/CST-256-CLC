@@ -44,8 +44,15 @@ class functions
             session_start();
         }
 
-        $object = unserialize($_SESSION["USER"]);
-        return $object;
+        if(!isset($_SESSION["USER"]))
+        {
+            return false;
+        }
+        else
+        {
+            $object = unserialize($_SESSION["USER"]);
+            return $object;
+        }
     }
     
     public function saveUserRole($role)

@@ -9,12 +9,19 @@ use App\Models\EducationModel;
 
 use App\Services\Business\JobHistoryService;
 use App\Models\JobHistory;
-
 use App\Services\Business\SkillsService;
+use App\Services\Utility\ILoggerService;
 
 
 class ResumeController extends Controller
 {
+    protected $logger;
+    
+    public function __construct(ILoggerService $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     function index()
     {
         
@@ -22,6 +29,8 @@ class ResumeController extends Controller
     
     function updateSkills(Request $request) 
     {
+        $this->logger->info("Entering ResumeController::updateSkills()", null);
+        
         $function = new functions();
         $userID = $function->getUserID();
         $skills = $request->input('skill1');
@@ -32,18 +41,30 @@ class ResumeController extends Controller
         $skills = $skills . $request->input('skill6');
         
         $service = new SkillsService();
-        if($service->udpateSkills($skills, $userID))
+        
+        try 
         {
-            return redirect()->action('ProfileController@viewResume');
-        }
-        else
+            if($service->udpateSkills($skills, $userID))
+            {
+                $this->logger->info("Updated skills for user: ", $userID);
+                $this->logger->info("Exiting ResumeController::updateSkills()", null);
+                return redirect()->action('ProfileController@viewResume');
+            }
+            else
+            {
+                $this->logger->error("Failed to update skills for user: ", $userID);  
+                echo "Failed to update skills!";
+            }
+        } 
+        catch (Exception $e) 
         {
-            echo "Failed to update skills!";
+            $this->logger->error("Exception ResumeController::udpateSkilss() ", $e->getMessage());
         }
     }
     
     function updateEducation(Request $request)
     {        
+        $this->logger->info("Entering ResumeController::updateEducation()", null);
         $service = new EducationService();
         $function = new functions();
         $userID = $function->getUserID();
@@ -59,34 +80,48 @@ class ResumeController extends Controller
         
         $userEducation = $service->getEducation($userID);
         
-        if(is_null($userEducation))
+        try 
         {
-            if($service->createEducation($updatedEducation))
+            if(is_null($userEducation))
             {
-                echo "Created a new education entry!<br>";
+                if($service->createEducation($updatedEducation))
+                {
+                    //echo "Created a new education entry!<br>";
+                    $this->logger->info("Created new education entry for user: ", $userID);
+                }
+                else
+                {
+                    //echo "Failed to create a new education entry!<br>";
+                    $this->logger->error("Failed to create new education entry for user: ", $userID);
+                }
             }
             else
             {
-                echo "Failed to create a new education entry!<br>";
+                if($service->updateEducation($updatedEducation))
+                {
+                    //echo "We've updated the education entry!<br>";
+                    $this->logger->info("Updated education entry for user: ", $userID);
+                }
+                else
+                {
+                    //echo "We failed to update the education entry!<br>";
+                    $this->logger->error("Failed to update education entry for user: ", $userID);
+                }
             }
+        } 
+        catch (Exception $e) 
+        {
+            $this->logger->error("Exception ResumeController::updateEducation() ", $e->getMessage());
         }
-        else
-        {
-            if($service->updateEducation($updatedEducation))
-            {
-                echo "We've updated the education entry!<br>";
-            }
-            else
-            {
-                echo "We failed to update the education entry!<br>";
-            }
-        }        
-        
+                
+        $this->logger->info("Exiting ResumeController::updateEducation()", null);
         return redirect()->action('ProfileController@viewResume');
     }
     
     function updateWorkHistory(Request $request)
     {   
+        $this->logger->info("Entering ResumeController::updateWorkHistory()", null);
+        
         $function = new functions();
         $userID = $function->getUserID();
         
@@ -103,27 +138,39 @@ class ResumeController extends Controller
         
         $jobHistory = $service->getAllJobHistory($userID);
         
-        if(count($jobHistory) == 0)
+        try 
         {
-            if($service->createJobHistory($updatedJobHistory))
+            if(count($jobHistory) == 0)
             {
-                return redirect()->action('ProfileController@viewResume');
+                if($service->createJobHistory($updatedJobHistory))
+                {
+                    $this->logger->info("Created job history for user: ", $userID);
+                    return redirect()->action('ProfileController@viewResume');
+                }
+                else
+                {
+                    echo "We failed to create a new job history entry!<br>";
+                    $this->logger->error("Failed to create job history for user: ", $userID);
+                }
             }
             else
             {
-                echo "We failed to create a new job history entry!<br>";
+                if($service->updateJobHistory($updatedJobHistory, $userID))
+                {
+                    $this->logger->info("Updated job history for user: ", $userID);
+                    $this->logger->info("Exiting ResumeController::updateWorkHistory()", null);
+                    return redirect()->action('ProfileController@viewResume');
+                }
+                else
+                {
+                    echo "We feild to update job history!";
+                    $this->logger->error("Failed to update job history for user: ", $userID);
+                }
             }
-        }
-        else
+        } 
+        catch (Exception $e) 
         {
-            if($service->updateJobHistory($updatedJobHistory, $userID))
-            {
-                return redirect()->action('ProfileController@viewResume');
-            }
-            else
-            {
-                echo "We feild to update job history!";
-            }
+            $this->logger->error("Exception ResumeController::updateWorkHistory() ", $e->getMessage());
         }
     }
 }

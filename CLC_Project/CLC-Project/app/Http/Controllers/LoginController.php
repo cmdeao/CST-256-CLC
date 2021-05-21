@@ -17,31 +17,60 @@ use App\Models\SecurityModel;
 use App\Services\Business\SecurityService;
 use App\Services\Business\functions;
 
+use App\Services\Utility\MyLogger;
+use App\Services\Utility\ILoggerService;
+
 class LoginController extends Controller
 {
+    protected $logger;
+    
+    public function __construct(ILoggerService $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     function findUser(Request $request)
     {
+        $logger1 = new MyLogger();
+        
+        $logger1->info("Entering LoginController::findUser()", array("username"=>$request->input('username'), "password"=>'****'));
+        $this->logger->info("Entering LoginController::findUser()", array("username"=>$request->input('username'), "password"=>'****'));
+        
         $userCreds = new SecurityModel($request->input('username'), $request->input('password'));
         $service = new SecurityService();
         $loginResult = $service->login($userCreds);
         
-        if(!$loginResult)
+        try
         {
-            echo "<br>Failed to login to application";
+            if(!$loginResult)
+            {
+                echo "<br>Failed to login to application";
+                $logger1->info("Failed login at LoginController::findUser() Paramaters: ", array("username"=>$request->input('username'), "password"=>$request->input('password')));
+                $this->logger->info("Failed login at LoginController::findUser() Paramaters: ", array("username"=>$request->input('username'), "password"=>$request->input('password')));
+                
+            }
+            else
+            {
+                $functions = new functions();
+                $functions->saveUserID($loginResult->getUserID());
+                $functions->logUser($loginResult);
+                $functions->saveUserRole($loginResult);
+                
+                session(['USER_ID' => $loginResult->getUserID()]);
+                session(['user' => $loginResult->getUsername()]);
+                session(['role' => $loginResult->getRole()]);
+                session(['loggedUser' => 1]);
+                
+                $logger1->info("Exit LoginController::findUser() with login passing.", null);
+                $this->logger->info("Exit LoginController::findUser() with login passing.", null);
+                
+                return view('home');
+            }
         }
-        else
+        catch(exception $e)
         {
-            $functions = new functions();
-            $functions->saveUserID($loginResult->getUserID());
-            $functions->logUser($loginResult);
-            $functions->saveUserRole($loginResult);
-            
-            session(['USER_ID' => $loginResult->getUserID()]);
-            session(['user' => $loginResult->getUsername()]);
-            session(['role' => $loginResult->getRole()]);
-            session(['loggedUser' => 1]);
-            
-            return view('home');
+            $logger1->error("Exception LoginController::findUser() ", $e->getMessage());
+            $this->logger->error("Exception LoginController::findUser() ", $e->getMessage());   
         }
     }
 }

@@ -28,7 +28,5 @@ class ProfileService
         $service = new ProfileDAO();
         return $service->updateProfile($profile);
     }
-    
-    
 }
 

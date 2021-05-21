@@ -11,5 +11,17 @@ class SecurityService
         $service = new SecurityDAO();
         return $service->findUser($user);
     }
+    
+    public function getAllUsers()
+    {
+        $service = new SecurityDAO();
+        return $service->getAllUsers();
+    }
+    
+    public function getUser($id)
+    {
+        $service = new SecurityDAO();
+        return $service->findByUserID($id);
+    }
 }
 
