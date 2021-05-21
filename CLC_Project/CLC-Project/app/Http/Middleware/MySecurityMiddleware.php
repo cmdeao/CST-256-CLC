@@ -17,7 +17,6 @@ class MySecurityMiddleware
      */
     public function handle($request, Closure $next)
     {
-        //TESTING
         $path = $request->path();
         $logger = new MyLogger();
         $functions = new functions();
