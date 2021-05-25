@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * CLC-Project-256
+ * Version 0.7
+ * Cameron Deao, Zachary Gardner, Mercedes Thigpen
+ * 5/30/2021
+ * Job controller handles requests related to viewing a specific job posting,
+ * updating a job posting, deleting a job posting, and creating a job posting.
+ * Logging statements are built in to showcase entry and exit of class and methods,
+ * along with results of operations and various variables utilized in methods.
+ */
+
 namespace App\Http\Controllers;
 
 use App\Services\Business\JobService;
@@ -11,13 +22,16 @@ use App\Services\Utility\ILoggerService;
 
 class JobController extends Controller
 {
+    //Logger variable
     protected $logger;
     
+    //Constructor method to initialize logger.
     public function __construct(ILoggerService $logger)
     {
         $this->logger = $logger;
     }
     
+    //Index method exists solely for testing purposes.
     function index()
     {
         echo "Inside JobController Index<br>";
@@ -49,6 +63,7 @@ class JobController extends Controller
 //         }
     }
     
+    //View post method to showcase a specific job posting.
     function viewPost(Request $request)
     {
         $ID = $request->input('editpost');
@@ -56,10 +71,13 @@ class JobController extends Controller
         return view('editPost')->with('ID', $ID);
     }
     
+    //Update post method for admins to update a specific job posting.
     function updatePost(Request $request)
     {
+        //Creating service variable to access job service class.
         $service = new JobService();
-        
+       
+        //Retrieving all form fields and storing within variables.
         $jobID = $request->input('jobID');
         $postDate = $request->input('postdate');
         $postTitle = $request->input('title');
@@ -69,10 +87,13 @@ class JobController extends Controller
         
         $this->logger->info("Entering JobController::updatePost() ", $jobID);
         
+        //Creating updating job posting model.
         $updatedJob = new JobPosting($jobID, $postDate, $postTitle, $company, $skills, $details);
         
+        //Exception handling for operation.
         try 
         {
+            //If-statement for editing a job posting.
             if($service->editPosting($updatedJob))
             {
                 $this->logger->info("Updated job posting: ", $jobID);
@@ -82,6 +103,7 @@ class JobController extends Controller
                 $this->logger->error("Error occurred JobController::updatePost() ", $jobID);
             }
         } 
+        //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
             $this->logger->error("Exception JobController::updatePost() ", $e->getMessage());   
@@ -91,12 +113,16 @@ class JobController extends Controller
         return redirect()->action('AdminController@viewJobs');
     }
     
+    //Deletion method for delelting a specific job posting.
     function deletePost(Request $request)
     {
         $this->logger->info("Entering JobController::deletePost() ", null);
+        
+        //Creating service variable to access job service class.
         $service = new JobService();
         $postID = $request->input('delete');
         
+        //Exception handling for operation.
         try 
         {
             if($service->deleteJobPosting($postID))
@@ -106,28 +132,37 @@ class JobController extends Controller
                 return redirect()->action('AdminController@viewJobs');
             }
         } 
+        //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
             $this->logger->error("Exception JobController::deletePost() ", $e->getMessage());   
         }
     }
     
+    //Create posting method for creating a new job posting.
     function createPost(Request $request)
     {
         $this->logger->info("Entering JobController::createPost() ", null);
+        
+        //Retrieving all form fields and storing within variables.
         $postDate = $request->input('postdate');
         $postTitle = $request->input('jobtitle');
         $company = $request->input('company');
         $skills = $request->input('prefskills');
         $details = $request->input('jobdetails');
         
+        //Creating new job posting model with passed data.
         $newJob = new JobPosting(null, $postDate, $postTitle, $company,
             $skills, $details);
         
+        //Creating service variable to access job service class.
         $service = new JobService();
         
+        //Exception handling for operation.
         try 
         {
+            //If-statement for creating job posting. Redirects to appropriate view
+            //based on result of operation.
             if($service->createJobPosting($newJob))
             {
                 $this->logger->info("Created new job posting.", null);
@@ -140,19 +175,24 @@ class JobController extends Controller
                 echo "Failed to create new job!";
             }
         } 
+        //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
             $this->logger->error("Exception JobController::createPost() ", $e->getMessage());   
         }
     }
     
+    //View job posting method for viewing a specific job posting.
     function viewJobPosting(Request $request)
     {
         $this->logger->info("Entering JobController::viewJobPosting() ", null);
         $jobID = $request->input('displayJob');
+        
+        //Creating service variables.
         $service = new JobService();
         $jobAppService = new JobApplicationService();
         
+        //Retrieving information from service and returned object.
         $foundJob = $service->findByID($jobID);
         $postDate = $foundJob->getJobPostDate();
         $postTitle = $foundJob->getPostTitle();
