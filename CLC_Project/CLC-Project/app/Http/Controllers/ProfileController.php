@@ -28,8 +28,8 @@ class ProfileController extends Controller
     //Logger variable.
     protected $logger;
     
-    
-    public func    //Constructor method to initialize loggertion __construct(ILoggerService $logger)
+    //Constructor method to initialize loggertion 
+    public function __construct(ILoggerService $logger)
     {
         $this->logger = $logger;
     }
