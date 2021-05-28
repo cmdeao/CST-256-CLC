@@ -55,6 +55,9 @@ class ProfileController extends Controller
         catch (Exception $e) 
         {
             $this->logger->error("Exception ProfileController::index() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
         
         //If-statement in the event a user profile does not exits. If false, user is
@@ -108,6 +111,9 @@ class ProfileController extends Controller
         catch (Exception $e) 
         {
             $this->logger->error("Exception ProfileController::viewResume() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
         
         //Creating an array of retrieved resume information for display.
@@ -146,6 +152,9 @@ class ProfileController extends Controller
                 {
                     //echo "<br>ERROR!";
                     $this->logger->error("Error inserting profile. ", $functions->getUserID());
+                    $message = "Error inserting profile!";
+                    $error = ['error'=>$message];
+                    return view('error')->with($error);
                 }
             }
             
@@ -159,12 +168,18 @@ class ProfileController extends Controller
             else
             {
                 $this->logger->error("Failed to updated profile. ", $functions->getUserID());
+                $message = "Failed to update profile!";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
         } 
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
             $this->logger->error("Exception ProfileController::updateProfile() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
 }

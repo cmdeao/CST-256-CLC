@@ -64,6 +64,9 @@ class SearchController extends Controller
         catch (Exception $e) 
         {
             $this->logger->error("Exception SearchController::searchMethod() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
 }

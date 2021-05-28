@@ -52,8 +52,9 @@ class RegistrationController extends Controller
         //Exiting if email exists within the database.
         if(!is_null($retrievedUser))
         {
-            echo "Cannot register an account with this username and email combination";
-            exit;
+            $message = "Cannot register an account with this username and email combination";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
         
         //Exception handling for operation.
@@ -67,6 +68,9 @@ class RegistrationController extends Controller
         catch (Exception $e) 
         {
             $this->logger->error("Exception RegistrationController::userRegistration ", $e->getMessage());  
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
         
         $this->logger->info("Exiting RegistrationController::userRegistration", null);

@@ -59,13 +59,18 @@ class ApplicationController extends Controller
             }
             else
             {
-                echo "Failed to create job application!<br>";
+                $message = "Failed to create job application!<br>";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
         } 
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
-            $this->logger->error("Exception ApplicationController::jobApplication() ", $e->getMessage());   
+            $this->logger->error("Exception ApplicationController::jobApplication() ", $e->getMessage());  
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
 }

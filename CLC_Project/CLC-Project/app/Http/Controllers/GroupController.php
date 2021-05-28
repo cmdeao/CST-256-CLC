@@ -78,12 +78,19 @@ class GroupController extends Controller
             else
             {
                 $this->logger->error("Failed to create new group!", null);
+                $message = "Failed to create new group!";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
+                exit;
             }
         } 
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
-            $this->logger->error("Exception GroupController::createGroup() ", $e->getMessage());   
+            $this->logger->error("Exception GroupController::createGroup() ", $e->getMessage()); 
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
 
         $this->logger->info("Exiting GroupController::createGroup()", null);
@@ -108,6 +115,9 @@ class GroupController extends Controller
         catch (Exception $e) 
         {
             $this->logger->error("Exception GroupController::deleteGroup() ", $e->getMessage());   
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
         
         $this->logger->info("Exiting GroupController::deleteGroup()", null);
@@ -266,13 +276,19 @@ class GroupController extends Controller
             else
             {
                 $this->logger->error("Error editing group: ", $groupID);
-                return redirect()->action('GroupController@showGroups');
+                $message = "Error editing group!"
+                $error = ['error'=>$message];
+                return view('error')->with($error);
+                //return redirect()->action('GroupController@showGroups');
             }
         } 
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
-            $this->logger->error("Exception GroupController::confirmEdit() ", $e->getMessage());   
+            $this->logger->error("Exception GroupController::confirmEdit() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
     
@@ -293,7 +309,10 @@ class GroupController extends Controller
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
-            $this->logger->error("Exception GroupController::removeUser() ", $e->getMessage());   
+            $this->logger->error("Exception GroupController::removeUser() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
         
         $this->logger->info("Exiting GroupController::removeUser()", null);

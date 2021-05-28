@@ -64,13 +64,18 @@ class AdminController extends Controller
             else
             {
                 $this->logger->error("Error occurred AdminController::suspendUser() with value: ", $userID);
-                echo "Failed to suspend User ID: '$userID'";
+                $message = "Failed to suspend User ID: '$userID'";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
         }
         //Logging a potential exception that could occur.
         catch(exception $e)
         {
             $this->logger->error("Exception AdminController::suspendUser() ", $e->getMessage());   
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
     
@@ -95,13 +100,18 @@ class AdminController extends Controller
             else
             {
                 $this->logger->error("Error occurred AdminController::banUser() with value: ", $userID);
-                echo "Failed to ban User ID: '$userID'";
+                $message = "Failed to ban User ID: '$userID'";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
         }
         //Logging a potential exception that could occur.
         catch(exception $e)
         {
             $this->logger->error("Exception AdminController::banUser() ", $e->getMessage());   
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }    
     }
     //Delete method for admins to delete a specific user from the application.
@@ -123,13 +133,18 @@ class AdminController extends Controller
             else
             {
                 $this->logger->error("Error occurred AdminController::deleteUser() with value: ", $userID);
-                echo "Failed to delete User ID: '$userID'";
+                $message = "Failed to delete User ID: '$userID'";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }    
         }
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
             $this->logger->error("Exception AdminController::deleteUser() ", $e->getMessage());   
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
     

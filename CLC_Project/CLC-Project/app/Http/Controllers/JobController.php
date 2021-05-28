@@ -101,12 +101,18 @@ class JobController extends Controller
             else
             {
                 $this->logger->error("Error occurred JobController::updatePost() ", $jobID);
+                $message = "Error occurred!";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
         } 
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
-            $this->logger->error("Exception JobController::updatePost() ", $e->getMessage());   
+            $this->logger->error("Exception JobController::updatePost() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
         
         $this->logger->info("Exiting JobController::updatePost() ", null);
@@ -135,7 +141,10 @@ class JobController extends Controller
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
-            $this->logger->error("Exception JobController::deletePost() ", $e->getMessage());   
+            $this->logger->error("Exception JobController::deletePost() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
     
@@ -172,13 +181,18 @@ class JobController extends Controller
             else
             {
                 $this->logger->error("Error occurred creating new job posting.", null);
-                echo "Failed to create new job!";
+                $message = "Failed to create new job!";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
         } 
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
-            $this->logger->error("Exception JobController::createPost() ", $e->getMessage());   
+            $this->logger->error("Exception JobController::createPost() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
     

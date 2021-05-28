@@ -57,7 +57,9 @@ class LoginController extends Controller
                 echo "<br>Failed to login to application";
                 $logger1->info("Failed login at LoginController::findUser() Paramaters: ", array("username"=>$request->input('username'), "password"=>$request->input('password')));
                 $this->logger->info("Failed login at LoginController::findUser() Paramaters: ", array("username"=>$request->input('username'), "password"=>$request->input('password')));
-                
+                $message = "Failed to login to application! Please try again!";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
             else
             {
@@ -81,7 +83,10 @@ class LoginController extends Controller
         catch(exception $e)
         {
             $logger1->error("Exception LoginController::findUser() ", $e->getMessage());
-            $this->logger->error("Exception LoginController::findUser() ", $e->getMessage());   
+            $this->logger->error("Exception LoginController::findUser() ", $e->getMessage()); 
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
 }

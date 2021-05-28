@@ -73,13 +73,18 @@ class ResumeController extends Controller
             else
             {
                 $this->logger->error("Failed to update skills for user: ", $userID);  
-                echo "Failed to update skills!";
+                $message = "Failed to update skills!";
+                $error = ['error'=>$message];
+                return view('error')->with($error);
             }
         } 
         //Logging a potential exception that could occur.
         catch (Exception $e) 
         {
             $this->logger->error("Exception ResumeController::udpateSkilss() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
     
@@ -122,6 +127,9 @@ class ResumeController extends Controller
                 {
                     //echo "Failed to create a new education entry!<br>";
                     $this->logger->error("Failed to create new education entry for user: ", $userID);
+                    $message = "Failed to create new education entry!";
+                    $error = ['error'=>$message];
+                    return view('error')->with($error);
                 }
             }
             else
@@ -136,6 +144,9 @@ class ResumeController extends Controller
                 {
                     //echo "We failed to update the education entry!<br>";
                     $this->logger->error("Failed to update education entry for user: ", $userID);
+                    $message = "Failed to update education entry!";
+                    $error = ['error'=>$message];
+                    return view('error')->with($error);
                 }
             }
         } 
@@ -143,6 +154,9 @@ class ResumeController extends Controller
         catch (Exception $e) 
         {
             $this->logger->error("Exception ResumeController::updateEducation() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
                 
         $this->logger->info("Exiting ResumeController::updateEducation()", null);
@@ -188,8 +202,10 @@ class ResumeController extends Controller
                 }
                 else
                 {
-                    echo "We failed to create a new job history entry!<br>";
+                    $message = "We failed to create a new job history entry!<br>";
                     $this->logger->error("Failed to create job history for user: ", $userID);
+                    $error = ['error'=>$message];
+                    return view('error')->with($error);
                 }
             }
             else
@@ -203,8 +219,10 @@ class ResumeController extends Controller
                 }
                 else
                 {
-                    echo "We feild to update job history!";
+                    $message = "We feild to update job history!";
                     $this->logger->error("Failed to update job history for user: ", $userID);
+                    $error = ['error'=>$message];
+                    return view('error')->with($error);
                 }
             }
         } 
@@ -212,6 +230,9 @@ class ResumeController extends Controller
         catch (Exception $e) 
         {
             $this->logger->error("Exception ResumeController::updateWorkHistory() ", $e->getMessage());
+            $message = "An exception occurred!";
+            $error = ['error'=>$message];
+            return view('error')->with($error);
         }
     }
 }
