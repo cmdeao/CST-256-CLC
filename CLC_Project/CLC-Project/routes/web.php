@@ -134,3 +134,7 @@ Route::resource('/usersrest', 'UserRestController');
 Route::resource('/jobsrest', 'JobRestController');
 
 Route::resource('/profilerest', 'ProfileRestController');
+
+Route::get('/testing', function(){
+   return view('error'); 
+});

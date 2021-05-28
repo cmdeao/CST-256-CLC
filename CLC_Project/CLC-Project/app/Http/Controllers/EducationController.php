@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * CLC-Project-256
+ * Version 0.7
+ * Cameron Deao, Zachary Gardner, Mercedes Thigpen
+ * 5/30/2021
+ * Controller exists solely for testing purposes of updating a specific user's 
+ * education information within the database of the application.
+ */
+
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
