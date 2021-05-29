@@ -5,7 +5,7 @@
 <style>
 .content{
 background-image:linear-gradient(to right,#B7B7B7,#EAEAEA);
-height:900px;
+height:1200px;
 }
 
 Button {
@@ -89,6 +89,7 @@ Button:active {
 <table id="jobs" class="display">
 <thead>
 	<tr>
+		@if(Session::get('role') == 2)
 		<th>ID</th>
 		<td>Posting Date</td>
 		<th>Position Title</th>
@@ -98,6 +99,15 @@ Button:active {
 		<th>View Job</th>
 		<th>Update Job</th>
 		<th>Delete Job</th>
+		@else
+		<th>ID</th>
+		<td>Posting Date</td>
+		<th>Position Title</th>
+		<th>Company</th>
+		<th>Pref. Skills</th>
+		<th>Job Details</th>
+		<th>View Job</th>
+		@endif
 	</tr>
 </thead>
 <tbody>

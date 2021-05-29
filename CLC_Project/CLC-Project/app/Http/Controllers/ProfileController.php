@@ -116,6 +116,11 @@ class ProfileController extends Controller
             return view('error')->with($error);
         }
         
+        if(is_null($education) || count($jobHistory) == 0 || is_null($skills))
+        {
+            return view('resume');
+        }
+        
         //Creating an array of retrieved resume information for display.
         $userData['data'] = [$education->getSchool(), $education->getDegree(),
             $education->getStudy(), $education->getStartDate(), $education->getEndDate(),

@@ -69,6 +69,7 @@ Button:active {
 @if(Session::get('user'))
 <a class="nav-item nav-link" href="#">Welcome, {{Session::get('user')}}</a>
 <a class="nav-item nav-lhttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=4008412ink" href="/logout">Logout</a>
+<a class="nav-item nav-link active" href="home">Home</a>
 @else
 <a class="nav-item nav-link active" href="home.blade.php">Home</a>
 <a class="nav-item nav-link active" href="login.blade.php">Login</a>
