@@ -67,7 +67,7 @@ Route::get('/login', function(){
 });
 
 Route::get('/register', function(){
-   return view('users'); 
+    return view('users'); 
 });
 
     Route::get('/home', function(){

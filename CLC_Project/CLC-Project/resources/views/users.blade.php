@@ -49,9 +49,9 @@ height:900px;
 <div class="navbar-nav">
 </div>
 <div class="navbar-nav ml-auto">
-<a class="nav-item nav-link active" href="home.blade.php">Home</a>
-<a class="nav-item nav-link active" href="login.blade.php">Login</a>
-<a class="nav-item nav-link active" href="users.blade.php">Register</a>
+<a class="nav-item nav-link active" href="home">Home</a>
+<a class="nav-item nav-link active" href="login">Login</a>
+<a class="nav-item nav-link active" href="<?php echo url('/register');?>">Register</a>
 </div>
 </div>
 </nav>

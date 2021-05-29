@@ -45,8 +45,7 @@ height:600px;
 </nav>
 </header>
 <div class="content d-flex justify-content-center">
-Welcome to the Application<br>
-Please return next week to see version 0.4 of the application!
+Welcome to the Application!<br>
 	<form action="searchProcess" method="POST" style="text-align: center;">
 	<br><br>
 		<input type="text" name="search" class="form-control" placeholder="Search jobs or groups..."><br>
