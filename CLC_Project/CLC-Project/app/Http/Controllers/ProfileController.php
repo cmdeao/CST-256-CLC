@@ -5,7 +5,7 @@
  * Version 0.7
  * Cameron Deao, Zachary Gardner, Mercedes Thigpen
  * 5/30/2021
- * Profile controlelr handles reqeusts related to viewing a specific profile,
+ * Profile controller handles reqeusts related to viewing a specific profile,
  * viewing a specific resume, and updating a specific profile.
  * Logging statements are built in to showcase entry and exit of class and methods,
  * along with results of operations and various variables utilized in methods.
