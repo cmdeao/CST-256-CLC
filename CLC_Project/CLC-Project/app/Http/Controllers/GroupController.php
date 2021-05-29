@@ -276,7 +276,7 @@ class GroupController extends Controller
             else
             {
                 $this->logger->error("Error editing group: ", $groupID);
-                $message = "Error editing group!"
+                $message = "Error editing group!";
                 $error = ['error'=>$message];
                 return view('error')->with($error);
                 //return redirect()->action('GroupController@showGroups');

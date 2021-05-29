@@ -227,6 +227,20 @@ class AdminDAO
             {
                 return false;
             }
+            
+            $sql = "DELETE FROM job_history WHERE id = '$userID'";
+            
+            if(!$database->query($sql))
+            {
+                return false;
+            }
+            
+            $sql = "DELETE FROM education WHERE user_id = '$userID'";
+            
+            if(!$database->query($sql))
+            {
+                return false;
+            }
         }
         
         //Creating query to delete user from the users table.

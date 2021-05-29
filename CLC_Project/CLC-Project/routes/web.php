@@ -78,6 +78,10 @@ Route::get('/register', function(){
 //     return view('home');    
 // });
 
+        Route::get('/resume', function(){
+            return view('resume');
+        });
+
 Route::get('/profile', 'ProfileController@index');
 
 Route::get('/adminPage', 'AdminController@index');
